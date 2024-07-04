@@ -80,7 +80,7 @@ const Login = () => {
             <span>Don't have an account?</span>
             <Link to="/register" className=" text-blue-700 hover:underline">
               {" "}
-              Rgister
+              Register
             </Link>
           </div>
         </Form>
