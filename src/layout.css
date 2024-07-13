@@ -1,0 +1,97 @@
+.main {
+  padding: 15px;
+  height: 100vh;
+}
+.sideBar {
+  background-color: #053b50;
+  border-radius: 5px;
+  box-shadow: 0 0 0 2px gray;
+  margin-right: 20px;
+  min-height: 100%;
+  padding: 10px;
+}
+.menu{
+    padding: 0 10px;
+}
+.content {
+  width: 100%;
+  height: 100%;
+}
+.header {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 0 2px gray;
+  margin-bottom: 15px;
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.body {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 0 2px rgba(128, 128, 128, 0.61);
+  height: 85vh;
+  /* padding: 12px; */
+}
+.sideBar_titleBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sideBar-title {
+  background-color: white;
+  color: #053b50;
+  padding: 3px;
+  font-size: 40px;
+  text-align: center;
+  font-weight: 700;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+.menu-item {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.colapseTrue {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.colapseTrue a {
+  color: rgba(255, 255, 255, 0.795);
+  font-size: 18px;
+}
+.colapseTrue span{
+    color: rgba(255, 255, 255, 0.795);
+    font-size: 25px;
+    text-decoration: none;
+}
+.menu-item a {
+  color: rgba(255, 255, 255, 0.795);
+  font-size: 18px;
+}
+
+.menu-item span {
+  color: rgba(255, 255, 255, 0.795);
+  font-size: 25px;
+  text-decoration: none;
+}
+
+.active-menu-item {
+  background-color: rgba(0, 0, 0, 0.363);
+  padding: 5px;
+  border-radius: 5px;
+}
+.active-menu-item a {
+  color: white;
+}
+.active-menu-item span {
+  color: white;
+}

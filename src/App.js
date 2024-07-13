@@ -5,6 +5,8 @@ import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import { useSelector } from "react-redux";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import PublicRoutes from "./components/PublicRoutes";
+import Doctor from "./pages/ApplyDoctor";
 function App() {
   const { loading } = useSelector((state) => state.alerts);
 
@@ -35,13 +37,36 @@ function App() {
 
       <Toaster position="top-center" reverseOrder={false} />
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={
+            <PublicRoutes>
+              <Login />
+            </PublicRoutes>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoutes>
+              {" "}
+              <Register />
+            </PublicRoutes>
+          }
+        />
         <Route
           path="/"
           element={
             <ProtectedRoutes>
               <Home />
+            </ProtectedRoutes>
+          }
+        />
+         <Route
+          path="/apply-doctor"
+          element={
+            <ProtectedRoutes>
+              <Doctor/>
             </ProtectedRoutes>
           }
         />
