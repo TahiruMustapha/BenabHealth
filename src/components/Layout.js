@@ -114,11 +114,14 @@ function Layout({ children }) {
               </span>
             )}
             <div className="  relative px-3 flex gap-4 items-center">
-              <p className="">
+              <p onClick={()=>navigate('/notifications')}  className="">
                 <IoMdNotificationsOutline className=" text-2xl" />
-                <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.3rem]  absolute">
-                  {user?.unseenNotifications.length}
-                </span>
+                {
+                  user?.unseenNotifications.length >=1 && ( <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.3rem]  absolute">
+                    {user?.unseenNotifications.length} 
+                  </span>)
+                }
+               
               </p>
               <Link to={"/profile"}>{user?.name}</Link>
             </div>
