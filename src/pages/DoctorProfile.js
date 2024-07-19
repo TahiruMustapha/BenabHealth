@@ -1,48 +1,14 @@
 import React from "react";
-import Layout from "../components/Layout";
 import { Col, Form, Input, Button, Row, TimePicker } from "antd";
-import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { hideLoading, showLoading } from "../redux/alertSlice";
-import { useNavigate } from "react-router-dom";
-
-function ApplyDoctor() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
-  const onFinish = async (values) => {
-    try {
-      dispatch(showLoading());
-      const response = await axios.post(
-        "api/user/apply-doctor-account",
-        {
-          ...values,
-          userid: user._id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      dispatch(hideLoading());
-      if (response.data.success) {
-        toast.success(response.data.message);
-        navigate("/");
-      } else {
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      dispatch(hideLoading());
-      toast.error("Error registering user!");
-    }
-  };
+import Layout from "../components/Layout";
+// import { hideLoading, showLoading } from "../redux/alertSlice";
+// import { useNavigate } from "react-router-dom";
+const DoctorProfile = () => {
   return (
     <Layout>
-      <h1 className=" page-title font-semibold">Apply Doctor Account</h1>
+      <h1 className=" page-title font-semibold"> Doctor Profile</h1>
       <hr />
-      <Form layout="vertical" onFinish={onFinish}>
+      <Form layout="vertical" >
         <h1 className=" text-gray-500 mt-2 font-semibold    ">
           Personal Infomation
         </h1>
@@ -159,6 +125,6 @@ function ApplyDoctor() {
       </Form>
     </Layout>
   );
-}
+};
 
-export default ApplyDoctor;
+export default DoctorProfile;

@@ -8,6 +8,13 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import PublicRoutes from "./components/PublicRoutes";
 import Doctor from "./pages/ApplyDoctor";
 import Notification from "./pages/Notification";
+import Appointments from "./pages/Appointments";
+import Profile from "./pages/Profile";
+import Doctors from "./pages/Doctors";
+import DoctorHome from "./pages/DoctorHome";
+import DoctorAppointments from "./pages/DoctorAppointments";
+import DoctorProfile from "./pages/DoctorProfile";
+import AdminUsers from "./pages/AdminUsers";
 function App() {
   const { loading } = useSelector((state) => state.alerts);
 
@@ -55,6 +62,14 @@ function App() {
             </PublicRoutes>
           }
         />
+         <Route
+          path="/admin-users"
+          element={
+            <ProtectedRoutes>
+              <AdminUsers/>
+            </ProtectedRoutes>
+          }
+        />
         <Route
           path="/"
           element={
@@ -68,6 +83,54 @@ function App() {
           element={
             <ProtectedRoutes>
               <Doctor/>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/doctor-profile"
+          element={
+            <ProtectedRoutes>
+              <DoctorProfile/>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/doctor-home" 
+          element={
+            <ProtectedRoutes>
+              <DoctorHome/>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/doctor-appointments"
+          element={
+            <ProtectedRoutes>
+              <DoctorAppointments/>
+            </ProtectedRoutes>
+          }
+        />
+         <Route
+          path="/appointments"
+          element={
+            <ProtectedRoutes>
+              <Appointments/>
+            </ProtectedRoutes>
+          }
+        />
+         <Route
+          path="/profile"
+          element={
+            <ProtectedRoutes>
+              <Profile/>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/doctors"
+          element={
+            <ProtectedRoutes>
+              <Doctors/>
             </ProtectedRoutes>
           }
         />

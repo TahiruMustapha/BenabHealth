@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../layout.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RxHome } from "react-icons/rx";
@@ -11,10 +11,24 @@ import { FiUsers } from "react-icons/fi";
 import { LuMenu } from "react-icons/lu";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { useSelector } from "react-redux";
+import axios from "axios";
 function Layout({ children }) {
   const [collapse, setCollapse] = useState(false);
   const location = useLocation();
+  const [doctors, setDoctors] = useState([]);
+  useEffect(() => {
+    axios
+      .get("/api/user/get-doctor-info")
+      .then((doctors) => setDoctors(doctors.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  // const doctorIds = doctors.map(({ _id }) => _id);
+  // console.log(doctorIds)
   const userMenu = [
+    {
+      title: "User Account",
+    },
     {
       name: "Home",
       path: "/",
@@ -38,13 +52,16 @@ function Layout({ children }) {
   ];
   const adminMenu = [
     {
+      title: "Admin",
+    },
+    {
       name: "Home",
       path: "/",
       icon: <RxHome />,
     },
     {
       name: "Users",
-      path: "/users",
+      path: "/admin-users",
       icon: <FiUsers />,
     },
     {
@@ -58,8 +75,42 @@ function Layout({ children }) {
       icon: <CgProfile />,
     },
   ];
+  const doctorMenu = [
+    {
+      title: "Doctor Account",
+    },
+    {
+      name: "Home",
+      path: `/doctor-home`,
+      icon: <RxHome />,
+    },
+    {
+      name: "Appointments",
+      path: "/doctor-appointments",
+      icon: <FiUsers />,
+    },
+    {
+      name: "Profile",
+      path: "/doctor-profile",
+      icon: <FaUserDoctor />,
+    },
+  ];
   const { user } = useSelector((state) => state.user);
-  const menuToBeRendered = user?.isAdmin ? adminMenu : userMenu;
+  const isUser = !user?.isAdmin && !user?.isDoctor;
+  // const getMenuToBeRendered = (user) => {
+  //   let menu = [];
+  //   if (user?.isAdmin) {
+  //     menu = menu.concat(adminMenu);
+  //   }
+  //   if (user?.isDoctor) {
+  //     menu = menu.concat(doctorMenu);
+  //   }
+  //   if (!user?.isAdmin && !user?.isDoctor) {
+  //     menu = userMenu;
+  //   }
+  //   return menu;
+  // };
+  // const menuToBeRendered = getMenuToBeRendered(user);
   const navigate = useNavigate();
   return (
     <div className="main">
@@ -70,10 +121,101 @@ function Layout({ children }) {
               <h1 className="sideBar-title">BH</h1>
             </p>
           </div>
+          {user?.isDoctor && (
+            <div className="menu">
+              {doctorMenu.map((doctor) => {
+                const isActive = location.pathname === doctor.path;
+                return (
+                  <div>
+                    <div
+                      className={`${collapse ? `colapseTrue` : ` menu-item`}  ${
+                        isActive && "active-menu-item"
+                      }`}
+                      key={doctor.name}
+                    >
+                      <span>{doctor.icon}</span>
+
+                      {!collapse && <Link to={doctor.path}>{doctor.name}</Link>}
+                      {!collapse && (
+                        <p className=" text-x s text-white underline">
+                          {doctor.title}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {user?.isAdmin && (
+            <div className="menu">
+              {adminMenu.map((admin) => {
+                const isActive = location.pathname === admin.path;
+
+                return (
+                  <div
+                    className={`${collapse ? `colapseTrue` : ` menu-item`}  ${
+                      isActive && "active-menu-item"
+                    }`}
+                    key={admin.name}
+                  >
+                    <span>{admin.icon}</span>
+
+                    {!collapse && <Link to={admin.path}>{admin.name}</Link>}
+                    {!collapse && (
+                      <p className=" text-x s text-white underline">
+                        {admin.title}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {isUser && (
+            <div className="menu">
+              {userMenu.map((user) => {
+                const isActive = location.pathname === user.path;
+                return (
+                  <div
+                    className={`${collapse ? `colapseTrue` : ` menu-item`}  ${
+                      isActive && "active-menu-item"
+                    }`}
+                    key={user.name}
+                  >
+                    <span>{user.icon}</span>
+
+                    {!collapse && <Link to={user.path}>{user.name}</Link>}
+                    {!collapse && (
+                      <p className=" text-x s text-white underline">
+                        {user.title}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
           <div className="menu">
+            <div
+              className={`${collapse ? `colapseTrue` : ` menu-item`} `}
+              onClick={() => {
+                localStorage.clear();
+                navigate("/login");
+              }}
+            >
+              <span>
+                <FiLogOut />
+              </span>
+              {!collapse && <Link to={"/login"}>Logout</Link>}
+            </div>
+          </div>
+
+          {/* <div className="menu">
             {menuToBeRendered.map((menu) => {
               const isActive = location.pathname === menu.path;
               return (
+                // <div></div>
                 <div
                   className={`${collapse ? `colapseTrue` : ` menu-item`}  ${
                     isActive && "active-menu-item"
@@ -81,23 +223,29 @@ function Layout({ children }) {
                   key={menu.name}
                 >
                   <span>{menu.icon}</span>
+
                   {!collapse && <Link to={menu.path}>{menu.name}</Link>}
+                  {!collapse && (
+                    <p className=" text-x s text-white underline">
+                      {menu.title}
+                    </p>
+                  )}
                 </div>
               );
             })}
             <div
               className={`${collapse ? `colapseTrue` : ` menu-item`} `}
-              
               onClick={() => {
                 localStorage.clear();
                 navigate("/login");
               }}
             >
-              <span><FiLogOut /></span>
-              {!collapse && <Link to={'/login'}>Logout</Link>}
+              <span>
+                <FiLogOut />
+              </span>
+              {!collapse && <Link to={"/login"}>Logout</Link>}
             </div>
-      
-          </div>
+          </div> */}
         </div>
         <div className="content">
           <div className="header">
@@ -114,14 +262,13 @@ function Layout({ children }) {
               </span>
             )}
             <div className="  relative px-3 flex gap-4 items-center">
-              <p onClick={()=>navigate('/notifications')}  className="">
+              <p onClick={() => navigate("/notifications")} className="">
                 <IoMdNotificationsOutline className=" text-2xl" />
-                {
-                  user?.unseenNotifications.length >=1 && ( <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.3rem]  absolute">
-                    {user?.unseenNotifications.length} 
-                  </span>)
-                }
-               
+                {user?.unseenNotifications.length >= 1 && (
+                  <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.3rem]  absolute">
+                    {user?.unseenNotifications.length}
+                  </span>
+                )}
               </p>
               <Link to={"/profile"}>{user?.name}</Link>
             </div>

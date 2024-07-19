@@ -78,7 +78,7 @@ const Notification = () => {
               </h1>
             </div>
             {user?.unseenNotifications.map((notification) => (
-              <div
+              <div key={notification._id}
                 className=" border-gray-300 border-[1px] mt-2 cursor-pointer card p-2"
                 onClick={() => navigate(notification.onClickPath)}
               >
