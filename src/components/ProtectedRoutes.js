@@ -7,7 +7,6 @@ import { hideLoading, showLoading } from "../redux/alertSlice";
 import { setDoctor } from "../redux/doctorSlice";
 const ProtectedRoutes = (props) => {
   const { user } = useSelector((state) => state.user);
-  const { doctor } = useSelector((state) => state.doctor);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getUser = async () => {

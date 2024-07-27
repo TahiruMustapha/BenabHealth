@@ -1,14 +1,76 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Form, Input, Button, Row, TimePicker } from "antd";
 import Layout from "../components/Layout";
-// import { hideLoading, showLoading } from "../redux/alertSlice";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { hideLoading, showLoading } from "../redux/alertSlice";
 // import { useNavigate } from "react-router-dom";
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
+
+const fetchUserData = async (id) => {
+  try {
+    const response = await axios.get(`/api/user/get-user/${id}`);
+
+    return response.data;
+  } catch (error) {
+    console.log("Cannot get user data!", error);
+  }
+};
 const DoctorProfile = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // const { user } = useSelector((state) => state.user);
+  const [singleDoctor, setDoctor] = useState([]);
+  const userInfo = localStorage.getItem("user");
+  const userIn = userInfo ? JSON.parse(userInfo) : null;
+  const [form] = Form.useForm();
+  useEffect(() => {
+    const getDoctorUserData = async () => {
+      try {
+        const doctorData = await fetchUserData(userIn?._id);
+        setDoctor(doctorData);
+      } catch (error) {
+        console.log("Error fetching doctor", error);
+      }
+    };
+
+    getDoctorUserData();
+  }, []);
+  const { users, doctor } = singleDoctor;
+  if (doctor?.timings) {
+    doctor.timings = doctor.timings.map((time) => moment(time));
+  }
+  form.setFieldsValue(doctor);
+  const onFinish = async (values) => {
+    dispatch(showLoading());
+    try {
+      const data = {
+        ...values,
+        timings: values.timings
+          ? values.timings.map((time) => time.toISOString())
+          : null,
+      };
+      const response = await axios.put(
+        `/api/user/doctor-profile/${doctor?._id}`,
+        data
+      );
+      dispatch(hideLoading());
+      toast.success("Profile updated successfully");
+      setDoctor(response.data);
+      navigate("/doctor-home");
+    } catch (error) {
+      dispatch(hideLoading());
+      console.error("Failed to update profile");
+    }
+  };
+
   return (
     <Layout>
       <h1 className=" page-title font-semibold"> Doctor Profile</h1>
       <hr />
-      <Form layout="vertical" >
+      <Form form={form} onFinish={onFinish} layout="vertical">
         <h1 className=" text-gray-500 mt-2 font-semibold    ">
           Personal Infomation
         </h1>
@@ -100,7 +162,10 @@ const DoctorProfile = () => {
               name={"timings"}
               rules={[{ required: true }]}
             >
-              <TimePicker.RangePicker className=" outline-none" />
+              <TimePicker.RangePicker
+                format="HH:mm:ss"
+                className=" outline-none"
+              />
             </Form.Item>
           </Col>
           <Col span={8} xs={24} sm={24} lg={8}>

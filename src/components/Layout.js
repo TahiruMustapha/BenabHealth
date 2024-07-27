@@ -15,16 +15,6 @@ import axios from "axios";
 function Layout({ children }) {
   const [collapse, setCollapse] = useState(false);
   const location = useLocation();
-  const [doctors, setDoctors] = useState([]);
-  useEffect(() => {
-    axios
-      .get("/api/user/get-doctor-info")
-      .then((doctors) => setDoctors(doctors.data))
-      .catch((err) => console.log(err));
-  }, []);
-
-  // const doctorIds = doctors.map(({ _id }) => _id);
-  // console.log(doctorIds)
   const userMenu = [
     {
       title: "User Account",
@@ -46,7 +36,7 @@ function Layout({ children }) {
     },
     {
       name: "Profile",
-      path: "/profile",
+      path: "/user-profile",
       icon: <CgProfile />,
     },
   ];
@@ -71,7 +61,7 @@ function Layout({ children }) {
     },
     {
       name: "Profile",
-      path: "/profile",
+      path: "/admin-profile",
       icon: <CgProfile />,
     },
   ];
@@ -97,20 +87,7 @@ function Layout({ children }) {
   ];
   const { user } = useSelector((state) => state.user);
   const isUser = !user?.isAdmin && !user?.isDoctor;
-  // const getMenuToBeRendered = (user) => {
-  //   let menu = [];
-  //   if (user?.isAdmin) {
-  //     menu = menu.concat(adminMenu);
-  //   }
-  //   if (user?.isDoctor) {
-  //     menu = menu.concat(doctorMenu);
-  //   }
-  //   if (!user?.isAdmin && !user?.isDoctor) {
-  //     menu = userMenu;
-  //   }
-  //   return menu;
-  // };
-  // const menuToBeRendered = getMenuToBeRendered(user);
+
   const navigate = useNavigate();
   return (
     <div className="main">
@@ -126,16 +103,17 @@ function Layout({ children }) {
               {doctorMenu.map((doctor) => {
                 const isActive = location.pathname === doctor.path;
                 return (
-                  <div>
+                  <div key={doctor.name}>
                     <div
                       className={`${collapse ? `colapseTrue` : ` menu-item`}  ${
                         isActive && "active-menu-item"
                       }`}
-                      key={doctor.name}
                     >
                       <span>{doctor.icon}</span>
 
-                      {!collapse && <Link to={doctor.path}>{doctor.name}</Link>}
+                      {!collapse && (
+                        <Link to={`${doctor.path}`}>{doctor.name}</Link>
+                      )}
                       {!collapse && (
                         <p className=" text-x s text-white underline">
                           {doctor.title}

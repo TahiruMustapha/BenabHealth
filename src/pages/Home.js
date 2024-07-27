@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
+import { Link } from "react-router-dom";
 const Home = () => {
   const [approvedDoctors, setApprovedDoctors] = useState([]);
   useEffect(() => {
@@ -14,6 +15,7 @@ const Home = () => {
     };
     fetchApprovedDoctors();
   }, []);
+
   return (
     <Layout>
       <div className=" w-full">
@@ -39,8 +41,9 @@ const Home = () => {
 
             const convertedTimings = timings.map(convertTo12HourTime);
             return (
-              <div
-                className="w-[30%] rounded-md shadow-md border-gray-300 border-[1px] px-2 py-3 "
+              <Link
+                to={`/book-appointment/${approvedDoctor._id}`}
+                className="w-[30%]  rounded-md shadow-md border-gray-300 border-[1px] px-2 py-3 "
                 key={approvedDoctor._id}
               >
                 <p className=" uppercase border-b-gray-400 border-b-[1px]">
@@ -52,7 +55,7 @@ const Home = () => {
                   <p>Fee per visit: ${approvedDoctor.feePerConsultation}</p>
                   <p>Timings: {convertedTimings}</p>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

@@ -14,9 +14,12 @@ const Login = () => {
       dispatch(showLoading());
       const response = await axios.post("api/user/login", values);
       dispatch(hideLoading());
+      const { user } = response.data;
       if (response.data.success) {
         toast.success(response.data.message);
         localStorage.setItem("token", response.data.data);
+        localStorage.setItem("user", JSON.stringify(user));
+
         navigate("/");
       } else {
         toast.error(response.data.message);

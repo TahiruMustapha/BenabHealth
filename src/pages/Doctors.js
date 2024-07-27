@@ -3,8 +3,12 @@ import Layout from "../components/Layout";
 import { FaUserDoctor } from "react-icons/fa6";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const Doctors = () => {
+  const { user } = useSelector((state) => state.user);
+  console.log(user);
+
   const handlApprove = async (id) => {
     try {
       const response = await axios.put(`/api/user/doctors/${id}/approve`);
@@ -16,6 +20,8 @@ const Doctors = () => {
       console.error("Error approving doctor:", error);
     }
   };
+   // const { user } = useSelector((state) => state.user);
+  // console.log(user);
   const [doctors, setDoctors] = useState([]);
   useEffect(() => {
     axios
@@ -67,7 +73,7 @@ const Doctors = () => {
                 options
               ).format(dateObj);
               return (
-                <tr className="border-b dark:border-gray-700">
+                <tr key={index} className="border-b dark:border-gray-700">
                   <td className=" px-6 py-4">{doctor.firstName}</td>
                   <td className=" px-6 py-4">{doctor.phoneNumber}</td>
                   <td className=" px-6 py-4">{formattedDate}</td>
