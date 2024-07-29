@@ -3,35 +3,58 @@ import Layout from "../components/Layout";
 import { GoDatabase } from "react-icons/go";
 import axios from "axios";
 
+const fetchUserData = async (id) => {
+  try {
+    const response = await axios.get(`/api/user/get-user/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log("Cannot get user data!", error);
+  }
+};
+const fetchDoctorAppointment = async (id) => {
+  try {
+    const response = await axios.get(`/api/user/appointments/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log("Cannot get doctor appointments!", error);
+  }
+};
+
 const DoctorAppointments = () => {
   const [appointment, setAppointment] = useState([]);
   const [doctorUserData, setDoctorUserData] = useState({});
   const userInfo = localStorage.getItem("user");
   const userIn = userInfo ? JSON.parse(userInfo) : null;
   useEffect(() => {
-    const fetchDoctorAndUser = async () => {
+    const getDoctorUserData = async () => {
       try {
-        const response = axios.get(`/api/user/get-user/${userIn?._id}`);
-        setDoctorUserData(await response.data);
+        const doctorData = await fetchUserData(userIn._id);
+        setDoctorUserData(doctorData);
       } catch (error) {
-        console.log("Error fetching doctor user data!", error);
+        console.log("Error fetching doctor", error);
       }
     };
-    fetchDoctorAndUser();
-  }, [userIn?._id]);
+
+    getDoctorUserData();
+  }, []);
+  const { users, doctor } = doctorUserData;
+  // const {users,doctor} = doctorUserData
+  // console.log(doctor._id)
+  const doctorId = doctor?._id;
+  // console.log(doctorId);
+  const id = "669e5c8e095ca441a2977fbe";
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get(
-          `/api/user/appointments/${userIn?._id}`
-        );
-        setAppointment(response.data);
+        const doctorAppointment = await fetchDoctorAppointment(id);
+        setAppointment(doctorAppointment);
       } catch (error) {
         console.log("Error fetching appointments!", error);
       }
     };
     fetchAppointments();
-  }, [userIn?._id]);
+  }, []);
+  console.log(appointment);
   return (
     <Layout>
       <div>
