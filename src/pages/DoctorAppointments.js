@@ -13,7 +13,7 @@ const fetchUserData = async (id) => {
 };
 const fetchDoctorAppointment = async (id) => {
   try {
-    const response = await axios.get(`/api/user/appointments/${id}`);
+    const response = await axios.get(`/api/user/doctor-appointments/${id}`);
     return response.data;
   } catch (error) {
     console.log("Cannot get doctor appointments!", error);
@@ -21,7 +21,7 @@ const fetchDoctorAppointment = async (id) => {
 };
 
 const DoctorAppointments = () => {
-  const [appointment, setAppointment] = useState([]);
+  const [appointments, setAppointment] = useState([]);
   const [doctorUserData, setDoctorUserData] = useState({});
   const userInfo = localStorage.getItem("user");
   const userIn = userInfo ? JSON.parse(userInfo) : null;
@@ -38,15 +38,15 @@ const DoctorAppointments = () => {
     getDoctorUserData();
   }, []);
   const { users, doctor } = doctorUserData;
-  // const {users,doctor} = doctorUserData
   // console.log(doctor._id)
-  const doctorId = doctor?._id;
-  // console.log(doctorId);
+  // const doctorId = doctor._id;
+  // console.log(doctor);
   const id = "669e5c8e095ca441a2977fbe";
+
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const doctorAppointment = await fetchDoctorAppointment(id);
+        const doctorAppointment = await fetchDoctorAppointment(doctor?._id);
         setAppointment(doctorAppointment);
       } catch (error) {
         console.log("Error fetching appointments!", error);
@@ -54,7 +54,18 @@ const DoctorAppointments = () => {
     };
     fetchAppointments();
   }, []);
-  console.log(appointment);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const day = String(date.getDate()).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  };
+  const formatTime = (timeString) => {
+    const options = { hour: "2-digit", minute: "2-digit", hour12: true };
+    return new Date(timeString).toLocaleTimeString(undefined, options);
+  };
   return (
     <Layout>
       <div>
@@ -63,7 +74,7 @@ const DoctorAppointments = () => {
         </h1>
         <hr className=" " />
       </div>
-      <table className=" w-full mt-4">
+      <table className=" w-full mt-4 text-left rtl:text-right ">
         <thead className=" bg-gray-100 text-sm text-gray-600 uppercase ">
           <tr className=" ">
             <th scope="col" className="px-6 py-3">
@@ -83,11 +94,35 @@ const DoctorAppointments = () => {
             </th>
           </tr>
         </thead>
+        {appointments.length >= 1 ? (
+          <tbody>
+            {appointments.map((appointment) => (
+              <tr key={appointment._id}>
+                <td className=" px-6 py-4">{appointment._id}</td>
+                <td className=" px-6 py-4">{appointment?.user.name}</td>
+                <td className=" px-6 py-4">{appointment?.user.email}</td>
+                <td className=" px-6 py-4">
+                  {" "}
+                  {formatDate(appointment.date)}{" "}
+                  <span>
+                    {appointment.time.map((time, index) => (
+                      <span key={index}> {formatTime(time)}</span>
+                    ))}
+                  </span>
+                </td>
+                <td className=" cursor-pointer px-6 py-4">
+                  {appointment.status}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        ) : (
+          <div className=" w-full   flex flex-col items-center mt-10 justify-center">
+            <GoDatabase className=" text-3xl text-gray-400" />
+            <p className=" text-gray-400 text-sm">No Doctor appointments</p>
+          </div>
+        )}
       </table>
-      <div className=" w-full flex flex-col items-center mt-10 justify-center">
-        <GoDatabase className=" text-3xl text-gray-400" />
-        <p className=" text-gray-400 text-sm">No Data</p>
-      </div>
     </Layout>
   );
 };

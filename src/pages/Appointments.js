@@ -16,7 +16,7 @@ const Appointments = () => {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(
-          `/api/user/appointments/${userIn?._id}`
+          `/api/user/user-appointments/${userIn?._id}`
         );
         setAppointment(response.data);
       } catch (error) {
@@ -28,7 +28,7 @@ const Appointments = () => {
 
   const date = moment(appointment?.date).format("MM/DD/YYYY");
   const time = moment(appointment?.date).format("h:mm:ss a");
-  console.log(appointment);
+  
   return (
     <Layout>
       <div>

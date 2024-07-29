@@ -94,9 +94,9 @@ function Layout({ children }) {
       <div className="flex layout">
         <div className={`sideBar`}>
           <div className=" sideBar-header">
-            <p className="sideBar_titleBox">
+            <div className="sideBar_titleBox">
               <h1 className="sideBar-title">BH</h1>
-            </p>
+            </div>
           </div>
           {user?.isDoctor && (
             <div className="menu">
@@ -127,7 +127,7 @@ function Layout({ children }) {
           )}
           {user?.isAdmin && (
             <div className="menu">
-              {adminMenu.map((admin) => {
+              {adminMenu.map((index, admin) => {
                 const isActive = location.pathname === admin.path;
 
                 return (
@@ -135,7 +135,7 @@ function Layout({ children }) {
                     className={`${collapse ? `colapseTrue` : ` menu-item`}  ${
                       isActive && "active-menu-item"
                     }`}
-                    key={admin.name}
+                    key={index}
                   >
                     <span>{admin.icon}</span>
 
@@ -188,42 +188,6 @@ function Layout({ children }) {
               {!collapse && <Link to={"/login"}>Logout</Link>}
             </div>
           </div>
-
-          {/* <div className="menu">
-            {menuToBeRendered.map((menu) => {
-              const isActive = location.pathname === menu.path;
-              return (
-                // <div></div>
-                <div
-                  className={`${collapse ? `colapseTrue` : ` menu-item`}  ${
-                    isActive && "active-menu-item"
-                  }`}
-                  key={menu.name}
-                >
-                  <span>{menu.icon}</span>
-
-                  {!collapse && <Link to={menu.path}>{menu.name}</Link>}
-                  {!collapse && (
-                    <p className=" text-x s text-white underline">
-                      {menu.title}
-                    </p>
-                  )}
-                </div>
-              );
-            })}
-            <div
-              className={`${collapse ? `colapseTrue` : ` menu-item`} `}
-              onClick={() => {
-                localStorage.clear();
-                navigate("/login");
-              }}
-            >
-              <span>
-                <FiLogOut />
-              </span>
-              {!collapse && <Link to={"/login"}>Logout</Link>}
-            </div>
-          </div> */}
         </div>
         <div className="content">
           <div className="header">
@@ -248,7 +212,7 @@ function Layout({ children }) {
                   </span>
                 )}
               </p>
-              <Link to={"/profile"}>{user?.name}</Link>
+              <Link to={`profile`}>{user?.name}</Link>
             </div>
           </div>
           <div className=" px-2 py-2 body">{children}</div>

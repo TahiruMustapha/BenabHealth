@@ -77,8 +77,8 @@ const Notification = () => {
                 Mark all as seen
               </h1>
             </div>
-            {user?.unseenNotifications.map((notification) => (
-              <div key={notification._id}
+            {user?.unseenNotifications.map((index,notification) => (
+              <div key={index}
                 className=" border-gray-300 border-[1px] mt-2 cursor-pointer card p-2"
                 onClick={() => navigate(notification.onClickPath)}
               >
@@ -90,8 +90,9 @@ const Notification = () => {
             <div className=" flex justify-end">
               <h1 onClick={()=>deleteAll()} className=" cursor-pointer anchor">Delete all</h1>
             </div>
-            {user?.seenNotifications.map((notification) => (
+            {user?.seenNotifications.map( ( index,notification) => (
               <div
+              key={index}
                 className=" border-gray-300 border-[1px] mt-2 cursor-pointer card p-2"
                 onClick={() => navigate(notification.onClickPath)}
               >
