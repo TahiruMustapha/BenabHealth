@@ -16,6 +16,7 @@ const fetchUserData = async (id) => {
     console.log("Cannot get user data!", error);
   }
 };
+
 const Notification = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
@@ -36,6 +37,7 @@ const Notification = () => {
     getDoctorUserData();
   }, []);
   const { users, doctor } = doctorUserData;
+
   const markAllAsSeen = async () => {
     try {
       dispatch(showLoading());
@@ -135,6 +137,14 @@ const Notification = () => {
     } catch (error) {
       dispatch(hideLoading());
       toast.error("Invalid credentials!");
+    }
+  };
+  const checkAccountRole = () => {
+    if (user?.isAdmin) {
+      markAllAsSeen();
+    }
+    if (user?.isDoctor) {
+      markAllDoctorNotificationAsSeen();
     }
   };
 
