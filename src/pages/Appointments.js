@@ -28,7 +28,17 @@ const Appointments = () => {
 
   const date = moment(appointment?.date).format("MM/DD/YYYY");
   const time = moment(appointment?.date).format("h:mm:ss a");
-  
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const day = String(date.getDate()).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  };
+  const formatTime = (timeString) => {
+    const options = { hour: "2-digit", minute: "2-digit", hour12: true };
+    return new Date(timeString).toLocaleTimeString(undefined, options);
+  };
   return (
     <Layout>
       <div>
@@ -70,9 +80,13 @@ const Appointments = () => {
                   {userAppointment.doctor?.phoneNumber}
                 </td>
                 <td className=" px-6 py-4">
-                  {/* {date} | {time} */}
-                  {moment(userAppointment?.date).format("MM/DD/YYYY")}
-                  {moment(userAppointment?.time).format("MM/DD/YYYY")}
+                  {" "}
+                  {formatDate(userAppointment.date)}{" "}
+                  <span>
+                    {userAppointment.time.map((time, index) => (
+                      <span key={index}> {formatTime(time)}</span>
+                    ))}
+                  </span>
                 </td>
                 <td className=" px-6 py-4">{userAppointment.status}</td>
               </tr>

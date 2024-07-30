@@ -12,6 +12,15 @@ import { LuMenu } from "react-icons/lu";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { useSelector } from "react-redux";
 import axios from "axios";
+
+const fetchUserData = async (id) => {
+  try {
+    const response = await axios.get(`/api/user/get-user/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log("Cannot get user data!", error);
+  }
+};
 function Layout({ children }) {
   const [collapse, setCollapse] = useState(false);
   const location = useLocation();
@@ -89,6 +98,23 @@ function Layout({ children }) {
   const isUser = !user?.isAdmin && !user?.isDoctor;
 
   const navigate = useNavigate();
+  const [doctorUserData, setDoctorUserData] = useState({});
+  const userInfo = localStorage.getItem("user");
+  const userIn = userInfo ? JSON.parse(userInfo) : null;
+  useEffect(() => {
+    const getDoctorUserData = async () => {
+      try {
+        const doctorData = await fetchUserData(userIn._id);
+        setDoctorUserData(doctorData);
+      } catch (error) {
+        console.log("Error fetching doctor", error);
+      }
+    };
+
+    getDoctorUserData();
+  }, []);
+  const { users, doctor } = doctorUserData;
+  // console.log(doctor)
   return (
     <div className="main">
       <div className="flex layout">
@@ -127,7 +153,7 @@ function Layout({ children }) {
           )}
           {user?.isAdmin && (
             <div className="menu">
-              {adminMenu.map((index, admin) => {
+              {adminMenu.map((admin) => {
                 const isActive = location.pathname === admin.path;
 
                 return (
@@ -135,7 +161,7 @@ function Layout({ children }) {
                     className={`${collapse ? `colapseTrue` : ` menu-item`}  ${
                       isActive && "active-menu-item"
                     }`}
-                    key={index}
+                    key={admin.name}
                   >
                     <span>{admin.icon}</span>
 
@@ -204,13 +230,20 @@ function Layout({ children }) {
               </span>
             )}
             <div className="  relative px-3 flex gap-4 items-center">
-              <p onClick={() => navigate("/notifications")} className="">
+              <p onClick={() => navigate("/notifications")} className=" cursor-pointer">
                 <IoMdNotificationsOutline className=" text-2xl" />
-                {user?.unseenNotifications.length >= 1 && (
-                  <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.3rem]  absolute">
+                {user?.unseenNotifications.length >= 1    && (
+                  <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.8rem]  absolute">
                     {user?.unseenNotifications.length}
                   </span>
                 )}
+                {
+                  doctor?.unseenNotifications.length >=1 && (
+                    <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.8rem]  absolute">
+                    { doctor?.unseenNotifications.length}
+                  </span>
+                  )
+                }
               </p>
               <Link to={`profile`}>{user?.name}</Link>
             </div>
