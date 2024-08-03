@@ -53,7 +53,7 @@ const DoctorAppointments = () => {
       }
     };
     fetchAppointments();
-  }, []);
+  }, [doctor?._id]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
