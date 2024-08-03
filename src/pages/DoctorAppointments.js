@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { GoDatabase } from "react-icons/go";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const fetchUserData = async (id) => {
   try {
@@ -40,8 +41,8 @@ const DoctorAppointments = () => {
   const { users, doctor } = doctorUserData;
   // console.log(doctor._id)
   // const doctorId = doctor._id;
-  // console.log(doctor);
-  const id = "669e5c8e095ca441a2977fbe";
+  console.log(doctor?._id);
+  // const id = "669e5c8e095ca441a2977fbe";
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -65,6 +66,17 @@ const DoctorAppointments = () => {
   const formatTime = (timeString) => {
     const options = { hour: "2-digit", minute: "2-digit", hour12: true };
     return new Date(timeString).toLocaleTimeString(undefined, options);
+  };
+  const handlApprove = async (id) => {
+    try {
+      const response = await axios.put(`/api/user/approve-appointments/${id}`);
+      if (!response) {
+        toast.error("Unable to approve user appointment!");
+      }
+      toast.success("Appointment approved successfully!");
+    } catch (error) {
+      console.error("Error approving appointment:", error);
+    }
   };
   return (
     <Layout>
@@ -92,9 +104,12 @@ const DoctorAppointments = () => {
             <th scope="col" className="px-6 py-3">
               Status
             </th>
+            <th scope="col" className="px-6 py-3">
+              Action
+            </th>
           </tr>
         </thead>
-        {appointments.length >= 1 ? (
+        {appointments?.length >= 1 ? (
           <tbody>
             {appointments.map((appointment) => (
               <tr key={appointment._id}>
@@ -110,9 +125,8 @@ const DoctorAppointments = () => {
                     ))}
                   </span>
                 </td>
-                <td className=" cursor-pointer px-6 py-4">
-                  {appointment.status}
-                </td>
+                <td className=" px-6 py-4">{appointment.status}</td>
+                <td onClick={()=>handlApprove(appointment._id)} className=" underline cursor-pointer px-6 py-4">Approve</td>
               </tr>
             ))}
           </tbody>

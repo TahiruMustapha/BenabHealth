@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const Doctors = () => {
   const { user } = useSelector((state) => state.user);
-  console.log(user);
+  // console.log(user);
 
   const handlApprove = async (id) => {
     try {
