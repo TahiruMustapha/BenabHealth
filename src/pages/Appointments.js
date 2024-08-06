@@ -25,7 +25,7 @@ const Appointments = () => {
     };
     fetchAppointments();
   }, [userIn?._id]);
-
+  // console.log(appointment);
   const date = moment(appointment?.date).format("MM/DD/YYYY");
   const time = moment(appointment?.date).format("h:mm:ss a");
   const formatDate = (dateString) => {
