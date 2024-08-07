@@ -41,7 +41,7 @@ const DoctorAppointments = () => {
   const { users, doctor } = doctorUserData;
   // console.log(doctor._id)
   // const doctorId = doctor._id;
-  console.log(doctor?._id);
+  // console.log(doctor?._id);
   // const id = "669e5c8e095ca441a2977fbe";
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const DoctorAppointments = () => {
     };
     fetchAppointments();
   }, [doctor?._id]);
-
+  // console.log(appointments);
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
@@ -126,7 +126,12 @@ const DoctorAppointments = () => {
                   </span>
                 </td>
                 <td className=" px-6 py-4">{appointment.status}</td>
-                <td onClick={()=>handlApprove(appointment._id)} className=" underline cursor-pointer px-6 py-4">Approve</td>
+                <td
+                  onClick={() => handlApprove(appointment._id)}
+                  className=" underline cursor-pointer px-6 py-4"
+                >
+                  Approve
+                </td>
               </tr>
             ))}
           </tbody>

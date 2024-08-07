@@ -230,21 +230,34 @@ function Layout({ children }) {
               </span>
             )}
             <div className="  relative px-3 flex gap-4 items-center">
-              <p onClick={() => navigate("/notifications")} className=" cursor-pointer">
-                <IoMdNotificationsOutline className=" text-2xl" />
-                {user?.unseenNotifications.length >= 1    && (
-                  <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.8rem]  absolute">
-                    {user?.unseenNotifications.length}
-                  </span>
-                )}
-                {
-                  doctor?.unseenNotifications.length >=1 && (
+              {user && (
+                <p
+                  onClick={() => navigate("/notifications")}
+                  className=" cursor-pointer"
+                >
+                  <IoMdNotificationsOutline className=" text-2xl" />
+                  {user?.unseenNotifications.length >= 1 && (
                     <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.8rem]  absolute">
-                    { doctor?.unseenNotifications.length}
-                  </span>
-                  )
-                }
-              </p>
+                      {user?.unseenNotifications.length}
+                    </span>
+                  )}
+                </p>
+              )}
+              {/* {doctor && (
+                <p
+                  onClick={() => navigate("/doctor-notifications")}
+                  className=" cursor-pointer"
+                >
+                  <IoMdNotificationsOutline className=" text-2xl" />
+
+                  {doctor?.unseenNotifications.length >= 1 && (
+                    <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.8rem]  absolute">
+                      {doctor?.unseenNotifications.length}
+                    </span>
+                  )}
+                </p>
+              )} */}
+
               <Link to={`profile`}>{user?.name}</Link>
             </div>
           </div>
