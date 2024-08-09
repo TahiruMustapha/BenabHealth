@@ -5,7 +5,7 @@
 .sideBar {
   background-color: #053b50;
   border-radius: 5px;
-  box-shadow: 0 0 0 2px gray;
+  box-shadow: 0 0 0 2px rgba(128, 128, 128, 0.158);
   margin-right: 20px;
   min-height: 100%;
   padding: 10px;
@@ -23,7 +23,7 @@
 .header {
   background-color: white;
   border-radius: 5px;
-  box-shadow: 0 0 0 2px gray;
+  box-shadow: 0 0 0 2px rgba(128, 128, 128, 0.158);
   margin-bottom: 15px;
   height: 8vh;
   display: flex;
@@ -34,7 +34,7 @@
 .body {
   background-color: white;
   border-radius: 5px;
-  box-shadow: 0 0 0 2px rgba(128, 128, 128, 0.61);
+  box-shadow: 0 0 0 2px rgba(128, 128, 128, 0.158);
   height: 100vh;
   /* padding: 12px; */
 }

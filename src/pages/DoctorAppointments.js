@@ -39,10 +39,6 @@ const DoctorAppointments = () => {
     getDoctorUserData();
   }, []);
   const { users, doctor } = doctorUserData;
-  // console.log(doctor._id)
-  // const doctorId = doctor._id;
-  // console.log(doctor?._id);
-  // const id = "669e5c8e095ca441a2977fbe";
 
   useEffect(() => {
     const fetchAppointments = async () => {

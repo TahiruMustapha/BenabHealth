@@ -79,7 +79,7 @@ function Layout({ children }) {
       title: "Doctor Account",
     },
     {
-      name: "Home",
+      name: "Dashboard",
       path: `/doctor-home`,
       icon: <RxHome />,
     },
@@ -104,7 +104,7 @@ function Layout({ children }) {
   useEffect(() => {
     const getDoctorUserData = async () => {
       try {
-        const doctorData = await fetchUserData(userIn._id);
+        const doctorData = await fetchUserData(userIn?._id);
         setDoctorUserData(doctorData);
       } catch (error) {
         console.log("Error fetching doctor", error);
@@ -112,9 +112,8 @@ function Layout({ children }) {
     };
 
     getDoctorUserData();
-  }, []);
+  }, [userIn?._id]);
   const { users, doctor } = doctorUserData;
-  // console.log(doctor)
   return (
     <div className="main">
       <div className="flex layout">
@@ -243,22 +242,14 @@ function Layout({ children }) {
                   )}
                 </p>
               )}
-              {/* {doctor && (
-                <p
-                  onClick={() => navigate("/doctor-notifications")}
-                  className=" cursor-pointer"
-                >
-                  <IoMdNotificationsOutline className=" text-2xl" />
-
-                  {doctor?.unseenNotifications.length >= 1 && (
-                    <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.8rem]  absolute">
-                      {doctor?.unseenNotifications.length}
-                    </span>
-                  )}
-                </p>
-              )} */}
-
-              <Link to={`profile`}>{user?.name}</Link>
+              <Link
+                className=" w-11 h-11 bg-[#053b50] rounded-full flex items-center justify-center text-white text-base font-semibold"
+                to={user?.isDoctor? `/doctor-profile`:`/profile`}
+              >
+                {user?.isDoctor
+                  ? doctor?.firstName.charAt(0) + doctor?.lastName.charAt(0)
+                  : user?.name.charAt(0)}
+              </Link>
             </div>
           </div>
           <div className=" px-2 py-2 body">{children}</div>
