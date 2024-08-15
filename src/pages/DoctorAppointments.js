@@ -41,7 +41,7 @@ const DoctorAppointments = () => {
   const { users, doctor } = doctorUserData;
   // console.log(doctor._id)
   // const doctorId = doctor._id;
-  console.log(doctor?._id);
+  // console.log(doctor?._id);
   // const id = "669e5c8e095ca441a2977fbe";
 
   useEffect(() => {
@@ -116,17 +116,21 @@ const DoctorAppointments = () => {
                 <td className=" px-6 py-4">{appointment._id}</td>
                 <td className=" px-6 py-4">{appointment?.user.name}</td>
                 <td className=" px-6 py-4">{appointment?.user.email}</td>
-                <td className=" px-6 py-4">
-                  {" "}
-                  {formatDate(appointment.date)}{" "}
-                  <span>
+                <td className=" px-6 py-4 ">
+                  {formatDate(appointment.date)}
+                  <span className="">
                     {appointment.time.map((time, index) => (
-                      <span key={index}> {formatTime(time)}</span>
+                      <span  className="" key={index}> {formatTime(time)}</span>
                     ))}
                   </span>
                 </td>
                 <td className=" px-6 py-4">{appointment.status}</td>
-                <td onClick={()=>handlApprove(appointment._id)} className=" underline cursor-pointer px-6 py-4">Approve</td>
+                <td
+                  onClick={() => handlApprove(appointment._id)}
+                  className=" underline cursor-pointer px-6 py-4"
+                >
+                  Approve
+                </td>
               </tr>
             ))}
           </tbody>
