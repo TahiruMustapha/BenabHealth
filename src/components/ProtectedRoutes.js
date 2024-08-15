@@ -24,7 +24,6 @@ const ProtectedRoutes = (props) => {
       dispatch(hideLoading());
       if (response.data.success) {
         dispatch(setUser(response.data.data));
-        // dispatch(reloadUserData(false))
       } else {
         localStorage.clear();
         navigate("/login");
@@ -40,38 +39,6 @@ const ProtectedRoutes = (props) => {
       getUser();
     }
   }, [user]);
-
-  // const getDoctor = async () => {
-  //   try {
-  //     dispatch(showLoading());
-  //     const response = await axios.post(
-  //       "/api/user/get-doctor-info-by-id",
-  //       { token: localStorage.getItem("token") },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       }
-  //     );
-  //     dispatch(hideLoading());
-  //     if (response.data.success) {
-  //       dispatch(setDoctor(response.data.data));
-  //       // dispatch(reloadUserData(false))
-  //     } else {
-  //       localStorage.clear();
-  //       navigate("/login");
-  //     }
-  //   } catch (error) {
-  //     dispatch(hideLoading());
-  //     localStorage.clear();
-  //     navigate("/login");
-  //   }
-  // };
-  // useEffect(() => {
-  //   if (!doctor) {
-  //     getDoctor();
-  //   }
-  // }, [doctor]);
   if (localStorage.getItem("token")) {
     return props.children;
   } else {

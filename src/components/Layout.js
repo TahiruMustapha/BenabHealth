@@ -8,7 +8,7 @@ import { CgProfile } from "react-icons/cg";
 import { FiLogOut } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { FiUsers } from "react-icons/fi";
-import { LuMenu } from "react-icons/lu";
+import { LuLayoutDashboard, LuMenu } from "react-icons/lu";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -29,8 +29,13 @@ function Layout({ children }) {
       title: "User Account",
     },
     {
-      name: "Home",
-      path: "/",
+      name: "Dashboard",
+      path: "/user-dashboard",
+      icon: <LuLayoutDashboard />,
+    },
+    {
+      name: "Doctors",
+      path: "/approve-doctors",
       icon: <RxHome />,
     },
     {
@@ -54,8 +59,14 @@ function Layout({ children }) {
       title: "Admin",
     },
     {
-      name: "Home",
-      path: "/",
+      name: "Dashboard",
+      path: "/admin-dashboard",
+      icon: <LuLayoutDashboard />,
+    },
+    
+    {
+      name: "Doctors",
+      path: "/approve-doctors",
       icon: <RxHome />,
     },
     {

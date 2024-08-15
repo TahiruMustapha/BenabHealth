@@ -1,11 +1,13 @@
 import React from "react";
 // import { FaAsterisk } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, redirect } from "react-router-dom";
 import { Form, Input, Button } from "antd";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+
 import { hideLoading, showLoading } from "../redux/alertSlice";
+
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,22 +17,33 @@ const Login = () => {
       const response = await axios.post("api/user/login", values);
       dispatch(hideLoading());
       const { user } = response.data;
+      // console.log(user);
+
       if (response.data.success) {
         toast.success(response.data.message);
         localStorage.setItem("token", response.data.data);
         localStorage.setItem("user", JSON.stringify(user));
-
-        navigate("/");
+       
+        setTimeout(() => {
+          if (user?.isDoctor) {
+            navigate(`/doctor-home`);
+          } else if (user?.isAdmin) {
+            navigate(`/admin-dashboard`);
+          } else if (!user?.isAdmin && !user?.isDoctor) {
+            navigate(`/user-dashboard`);
+          }
+        }, 1000);
       } else {
         toast.error(response.data.message);
       }
-      // console.log(values);
     } catch (error) {
       dispatch(hideLoading());
       toast.error("Invalid credentials!");
     }
   };
-
+  const userDashboard = () => {
+    navigate("/user-dashboard");
+  };
   return (
     <div className=" bg-[#053B50] w-full h-full   authentication">
       <div className=" bg-white    shadow-md border-gray-300 border-[1px] rounded-md  w-[30%] px-3 py-5 authentication-form card">
@@ -67,6 +80,7 @@ const Login = () => {
               {" "}
               Register
             </Link>
+            <button onClick={userDashboard}>Dashboard</button>
           </div>
         </Form>
       </div>
