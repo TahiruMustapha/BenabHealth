@@ -8,7 +8,7 @@ import { CgProfile } from "react-icons/cg";
 import { FiLogOut } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { FiUsers } from "react-icons/fi";
-import { LuMenu } from "react-icons/lu";
+import { LuLayoutDashboard, LuMenu } from "react-icons/lu";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -29,8 +29,13 @@ function Layout({ children }) {
       title: "User Account",
     },
     {
-      name: "Home",
-      path: "/",
+      name: "Dashboard",
+      path: "/user-dashboard",
+      icon: <LuLayoutDashboard />,
+    },
+    {
+      name: "Doctors",
+      path: "/approve-doctors",
       icon: <RxHome />,
     },
     {
@@ -54,8 +59,14 @@ function Layout({ children }) {
       title: "Admin",
     },
     {
-      name: "Home",
-      path: "/",
+      name: "Dashboard",
+      path: "/admin-dashboard",
+      icon: <LuLayoutDashboard />,
+    },
+    
+    {
+      name: "Doctors",
+      path: "/approve-doctors",
       icon: <RxHome />,
     },
     {
@@ -79,7 +90,7 @@ function Layout({ children }) {
       title: "Doctor Account",
     },
     {
-      name: "Home",
+      name: "Dashboard",
       path: `/doctor-home`,
       icon: <RxHome />,
     },
@@ -104,7 +115,7 @@ function Layout({ children }) {
   useEffect(() => {
     const getDoctorUserData = async () => {
       try {
-        const doctorData = await fetchUserData(userIn._id);
+        const doctorData = await fetchUserData(userIn?._id);
         setDoctorUserData(doctorData);
       } catch (error) {
         console.log("Error fetching doctor", error);
@@ -112,9 +123,14 @@ function Layout({ children }) {
     };
 
     getDoctorUserData();
+<<<<<<< HEAD
   }, [userIn._id]);
   const { users, doctor } = doctorUserData;
   
+=======
+  }, [userIn?._id]);
+  const { users, doctor } = doctorUserData;
+>>>>>>> d46977f94f24aff5eb0ee4796f828f9976ed3d04
   return (
     <div className="main">
       <div className="flex layout">
@@ -230,22 +246,27 @@ function Layout({ children }) {
               </span>
             )}
             <div className="  relative px-3 flex gap-4 items-center">
-              <p onClick={() => navigate("/notifications")} className=" cursor-pointer">
-                <IoMdNotificationsOutline className=" text-2xl" />
-                {user?.unseenNotifications.length >= 1    && (
-                  <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.8rem]  absolute">
-                    {user?.unseenNotifications.length}
-                  </span>
-                )}
-                {
-                  doctor?.unseenNotifications.length >=1 && (
+              {user && (
+                <p
+                  onClick={() => navigate("/notifications")}
+                  className=" cursor-pointer"
+                >
+                  <IoMdNotificationsOutline className=" text-2xl" />
+                  {user?.unseenNotifications.length >= 1 && (
                     <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.8rem]  absolute">
-                    { doctor?.unseenNotifications.length}
-                  </span>
-                  )
-                }
-              </p>
-              <Link to={`profile`}>{user?.name}</Link>
+                      {user?.unseenNotifications.length}
+                    </span>
+                  )}
+                </p>
+              )}
+              <Link
+                className=" w-11 h-11 bg-[#053b50] rounded-full flex items-center justify-center text-white text-base font-semibold"
+                to={user?.isDoctor? `/doctor-profile`:`/profile`}
+              >
+                {user?.isDoctor
+                  ? doctor?.firstName.charAt(0) + doctor?.lastName.charAt(0)
+                  : user?.name.charAt(0)}
+              </Link>
             </div>
           </div>
           <div className=" px-2 py-2 body">{children}</div>

@@ -30,6 +30,7 @@ const BookAppoint = () => {
 
     getDoctor();
   }, []);
+  console.log(doctor);
   // console.log( typeof(doctor.timings) );
   // const timings = doctor.timings
   function formatTime(time) {
@@ -50,11 +51,13 @@ const BookAppoint = () => {
     address,
     specialization,
     feePerConsultation,
+
+    userId,
     website,
     timings,
     experience,
   } = doctor;
-
+  const doctorUserId = userId;
   const checkAvailability = async () => {
     try {
       const values = await form.validateFields();
@@ -90,8 +93,9 @@ const BookAppoint = () => {
     const appointmentId = user._id;
     const payload = {
       appointmentId,
-      doctor:doctor._id,
-      user:user._id,
+      doctor: doctor._id,
+      doctorUserInfo: doctorUserId,
+      user: user._id,
       date,
       time,
     };
@@ -105,7 +109,7 @@ const BookAppoint = () => {
       }
       toast.success("Appointment booked successfully");
       form.resetFields();
-      navigate('/appointments')
+      navigate("/appointments");
     } catch (error) {
       dispatch(hideLoading());
       console.log("Failed to book appointment", error);

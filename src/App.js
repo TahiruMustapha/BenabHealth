@@ -18,6 +18,9 @@ import AdminUsers from "./pages/AdminUsers";
 import BookAppoint from "./pages/BookAppoint";
 import AdminProfile from "./pages/AdminProfile";
 import UserProfile from "./pages/UserProfile";
+import DoctorNotification from "./pages/DoctorNotifications";
+import DashboardUser from "./pages/DashboardUser";
+import AdminDashboard from "./pages/AdminDashboard";
 function App() {
   const { loading } = useSelector((state) => state.alerts);
 
@@ -65,35 +68,35 @@ function App() {
             </PublicRoutes>
           }
         />
-         <Route
+        <Route
           path="/admin-users"
           element={
             <ProtectedRoutes>
-              <AdminUsers/>
+              <AdminUsers />
             </ProtectedRoutes>
           }
         />
         <Route
-          path="/"
+          path="/approve-doctors"
           element={
             <ProtectedRoutes>
               <Home />
             </ProtectedRoutes>
           }
         />
-         <Route
+        <Route
           path="/apply-doctor"
           element={
             <ProtectedRoutes>
-              <Doctor/>
+              <Doctor />
             </ProtectedRoutes>
           }
         />
-         <Route
+        <Route
           path="/book-appointment/:id"
           element={
             <ProtectedRoutes>
-              <BookAppoint/>
+              <BookAppoint />
             </ProtectedRoutes>
           }
         />
@@ -101,31 +104,31 @@ function App() {
           path="/doctor-profile"
           element={
             <ProtectedRoutes>
-              <DoctorProfile/>
+              <DoctorProfile />
             </ProtectedRoutes>
           }
         />
         <Route
-          path="/doctor-home" 
+          path="/doctor-home"
           element={
             <ProtectedRoutes>
-              <DoctorHome/>
+              <DoctorHome />
             </ProtectedRoutes>
           }
         />
-         <Route
-          path="/admin-profile" 
+        <Route
+          path="/admin-profile"
           element={
             <ProtectedRoutes>
-              <AdminProfile/>
+              <AdminProfile />
             </ProtectedRoutes>
           }
         />
-         <Route
-          path="/user-profile" 
+        <Route
+          path="/user-profile"
           element={
             <ProtectedRoutes>
-              <UserProfile/>
+              <UserProfile />
             </ProtectedRoutes>
           }
         />
@@ -133,23 +136,23 @@ function App() {
           path="/doctor-appointments"
           element={
             <ProtectedRoutes>
-              <DoctorAppointments/>
+              <DoctorAppointments />
             </ProtectedRoutes>
           }
         />
-         <Route
+        <Route
           path="/appointments"
           element={
             <ProtectedRoutes>
-              <Appointments/>
+              <Appointments />
             </ProtectedRoutes>
           }
         />
-         <Route
+        <Route
           path="/profile"
           element={
             <ProtectedRoutes>
-              <Profile/>
+              <Profile />
             </ProtectedRoutes>
           }
         />
@@ -157,7 +160,7 @@ function App() {
           path="/doctors"
           element={
             <ProtectedRoutes>
-              <Doctors/>
+              <Doctors />
             </ProtectedRoutes>
           }
         />
@@ -165,7 +168,32 @@ function App() {
           path="/notifications"
           element={
             <ProtectedRoutes>
-              <Notification/>
+              <Notification />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/doctor-notifications"
+          element={
+            <ProtectedRoutes>
+              <DoctorNotification />
+            </ProtectedRoutes>
+          }
+        />
+
+        <Route
+          path="/user-dashboard"
+          element={
+            <ProtectedRoutes>
+              <DashboardUser />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/admin-dashboard"
+          element={
+            <ProtectedRoutes>
+              <AdminDashboard />
             </ProtectedRoutes>
           }
         />

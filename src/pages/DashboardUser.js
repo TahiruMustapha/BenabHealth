@@ -38,99 +38,99 @@ const fetchDoctorAppointment = async (id) => {
     console.log("Cannot get doctor appointments!", error);
   }
 };
-const DoctorHome = () => {
-  const navigate = useNavigate();
-  const patientReview = [
-    {
-      name: "Carl Oliver",
-      job: "PA",
-      image: app1,
-      review:
-        " There is now an in order to have a  ready-made  text to sing with the melody alternatives to the classic Lorem Ipsum texts are amusing.",
-    },
-    {
-      name: "Barbara McIntosh",
-      job: "M.D",
-      image: app2,
-      review:
-        " There is now an in order to have a ready-made text to sing with the melody alternatives to the classic Lorem Ipsum texts are amusing.",
-    },
-    {
-      name: "Christa Smith",
-      job: "Manager",
-      image: app3,
-      review:
-        " There is now an in order to have a ready-made text to sing with the melody alternatives to the classic Lorem Ipsum texts are amusing.",
-    },
-    {
-      name: "Dean Tolle",
-      job: "Developer",
-      image: app5,
-      review:
-        " According to most sources in order to have a ready-made text to sing with the melody the origin of the text by compiling all the instances. ",
-    },
-    {
-      name: "Wendy Filson",
-      job: "Designer",
-      image: app3,
-      review:
-        "It seems that only in order to have a ready-made text to sing with the melody Lorem Ipsum, which is said to have originated 16th century. ",
-    },
-  ];
-  const [userData, setUserData] = useState({});
-  const [appointments, setAppointment] = useState([]);
-  const userInfo = localStorage.getItem("user");
-  const userIn = userInfo ? JSON.parse(userInfo) : null;
 
-  useEffect(() => {
-    const getDoctorUserData = async () => {
-      try {
-        const doctorData = await fetchUserData(userIn?._id);
-        setUserData(doctorData);
-      } catch (error) {
-        console.log("Error fetching doctor", error);
-      }
-    };
-
-    getDoctorUserData();
-  }, [userIn?._id]);
-  const { users, doctor } = userData;
-  useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const doctorAppointment = await fetchDoctorAppointment(doctor._id);
-        setAppointment(doctorAppointment);
-      } catch (error) {
-        console.log("Error fetching appointments!", error);
-      }
-    };
-    fetchAppointments();
-  }, [doctor?._id]);
-
-  const dateFormat = function (dateString) {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "short" });
-    const year = date.getFullYear();
-
-    const daySuffix = (day) => {
-      if (day > 3 && day < 21) return "th";
-      switch (day % 10) {
-        case 1:
-          return "st";
-        case 2:
-          return "nd";
-        case 3:
-          return "rd";
-        default:
-          return "th";
-      }
-    };
-    return `${day}${daySuffix(day)} , ${month} ${year}`;
-  };
-  // console.log(users);
+const DashboardUser = () => {
+    const navigate = useNavigate();
+    const patientReview = [
+        {
+          name: "Carl Oliver",
+          job: "PA",
+          image: app1,
+          review:
+            " There is now an in order to have a  ready-made  text to sing with the melody alternatives to the classic Lorem Ipsum texts are amusing.",
+        },
+        {
+          name: "Barbara McIntosh",
+          job: "M.D",
+          image: app2,
+          review:
+            " There is now an in order to have a ready-made text to sing with the melody alternatives to the classic Lorem Ipsum texts are amusing.",
+        },
+        {
+          name: "Christa Smith",
+          job: "Manager",
+          image: app3,
+          review:
+            " There is now an in order to have a ready-made text to sing with the melody alternatives to the classic Lorem Ipsum texts are amusing.",
+        },
+        {
+          name: "Dean Tolle",
+          job: "Developer",
+          image: app5,
+          review:
+            " According to most sources in order to have a ready-made text to sing with the melody the origin of the text by compiling all the instances. ",
+        },
+        {
+          name: "Wendy Filson",
+          job: "Designer",
+          image: app3,
+          review:
+            "It seems that only in order to have a ready-made text to sing with the melody Lorem Ipsum, which is said to have originated 16th century. ",
+        },
+      ];
+      const [userData, setUserData] = useState({});
+      const [appointments, setAppointment] = useState([]);
+      const userInfo = localStorage.getItem("user");
+      const userIn = userInfo ? JSON.parse(userInfo) : null;
+    
+      useEffect(() => {
+        const getDoctorUserData = async () => {
+          try {
+            const doctorData = await fetchUserData(userIn?._id);
+            setUserData(doctorData);
+          } catch (error) {
+            console.log("Error fetching doctor", error);
+          }
+        };
+    
+        getDoctorUserData();
+      }, [userIn?._id]);
+      const { users, doctor } = userData;
+      useEffect(() => {
+        const fetchAppointments = async () => {
+          try {
+            const doctorAppointment = await fetchDoctorAppointment(doctor._id);
+            setAppointment(doctorAppointment);
+          } catch (error) {
+            console.log("Error fetching appointments!", error);
+          }
+        };
+        fetchAppointments();
+      }, [doctor?._id]);
+    
+      const dateFormat = function (dateString) {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = date.toLocaleString("default", { month: "short" });
+        const year = date.getFullYear();
+    
+        const daySuffix = (day) => {
+          if (day > 3 && day < 21) return "th";
+          switch (day % 10) {
+            case 1:
+              return "st";
+            case 2:
+              return "nd";
+            case 3:
+              return "rd";
+            default:
+              return "th";
+          }
+        };
+        return `${day}${daySuffix(day)} , ${month} ${year}`;
+      };
   return (
-    <Layout>
+     <Layout>
       <h2 className=" text-2xl px-6 text-gray-500 mb-4 font-semibold">
         Dashboard
       </h2>
@@ -486,7 +486,7 @@ const DoctorHome = () => {
         </div>
       )} */}
     </Layout>
-  );
-};
+  )
+}
 
-export default DoctorHome;
+export default DashboardUser
