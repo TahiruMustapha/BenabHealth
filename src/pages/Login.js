@@ -32,7 +32,7 @@ const Login = () => {
           } else if (!user?.isAdmin && !user?.isDoctor) {
             navigate(`/user-dashboard`);
           }
-        }, 1000);
+        }, 0);
       } else {
         toast.error(response.data.message);
       }
@@ -41,9 +41,7 @@ const Login = () => {
       toast.error("Invalid credentials!");
     }
   };
-  const userDashboard = () => {
-    navigate("/user-dashboard");
-  };
+  
   return (
     <div className=" bg-[#053B50] w-full h-full   authentication">
       <div className=" bg-white    shadow-md border-gray-300 border-[1px] rounded-md  w-[30%] px-3 py-5 authentication-form card">
@@ -80,7 +78,7 @@ const Login = () => {
               {" "}
               Register
             </Link>
-            <button onClick={userDashboard}>Dashboard</button>
+         
           </div>
         </Form>
       </div>
