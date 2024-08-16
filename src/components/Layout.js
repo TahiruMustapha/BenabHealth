@@ -123,14 +123,9 @@ function Layout({ children }) {
     };
 
     getDoctorUserData();
-<<<<<<< HEAD
   }, [userIn._id]);
   const { users, doctor } = doctorUserData;
   
-=======
-  }, [userIn?._id]);
-  const { users, doctor } = doctorUserData;
->>>>>>> d46977f94f24aff5eb0ee4796f828f9976ed3d04
   return (
     <div className="main">
       <div className="flex layout">

@@ -21,6 +21,7 @@ import UserProfile from "./pages/UserProfile";
 import DoctorNotification from "./pages/DoctorNotifications";
 import DashboardUser from "./pages/DashboardUser";
 import AdminDashboard from "./pages/AdminDashboard";
+import Benab from "./pages/Benab";
 function App() {
   const { loading } = useSelector((state) => state.alerts);
 
@@ -195,6 +196,12 @@ function App() {
             <ProtectedRoutes>
               <AdminDashboard />
             </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/"
+          element={
+           <Benab/>
           }
         />
       </Routes>
