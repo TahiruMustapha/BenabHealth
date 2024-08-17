@@ -2,13 +2,9 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { GoDatabase } from "react-icons/go";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import moment from "moment";
 
 const Appointments = () => {
-  // const { user } = useSelector((state) => state.user);
-  const [userData, setUserData] = useState([]);
-  const [userDataAp, setUserDataAp] = useState([]);
   const userInfo = localStorage.getItem("user");
   const userIn = userInfo ? JSON.parse(userInfo) : null;
   const [appointment, setAppointment] = useState([]);

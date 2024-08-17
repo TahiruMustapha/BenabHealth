@@ -131,7 +131,7 @@ const AdminDashboard = () => {
   return (
     <Layout>
     <h2 className=" text-2xl px-6 text-gray-500 mb-4 font-semibold">
-      Dashboard
+     Admin Dashboard
     </h2>
     <div className=" w-full flex items-center justify-center gap-4 mb-5">
       <div className=" w-[23%] shadow-md px-3 py-3 rounded-md">

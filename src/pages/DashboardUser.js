@@ -20,6 +20,7 @@ import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { GiSandsOfTime } from "react-icons/gi";
 import { MdOutlineAttachEmail } from "react-icons/md";
+import { FaUserDoctor } from "react-icons/fa6";
 
 const fetchUserData = async (id) => {
   try {
@@ -40,99 +41,118 @@ const fetchDoctorAppointment = async (id) => {
 };
 
 const DashboardUser = () => {
-    const navigate = useNavigate();
-    const patientReview = [
-        {
-          name: "Carl Oliver",
-          job: "PA",
-          image: app1,
-          review:
-            " There is now an in order to have a  ready-made  text to sing with the melody alternatives to the classic Lorem Ipsum texts are amusing.",
-        },
-        {
-          name: "Barbara McIntosh",
-          job: "M.D",
-          image: app2,
-          review:
-            " There is now an in order to have a ready-made text to sing with the melody alternatives to the classic Lorem Ipsum texts are amusing.",
-        },
-        {
-          name: "Christa Smith",
-          job: "Manager",
-          image: app3,
-          review:
-            " There is now an in order to have a ready-made text to sing with the melody alternatives to the classic Lorem Ipsum texts are amusing.",
-        },
-        {
-          name: "Dean Tolle",
-          job: "Developer",
-          image: app5,
-          review:
-            " According to most sources in order to have a ready-made text to sing with the melody the origin of the text by compiling all the instances. ",
-        },
-        {
-          name: "Wendy Filson",
-          job: "Designer",
-          image: app3,
-          review:
-            "It seems that only in order to have a ready-made text to sing with the melody Lorem Ipsum, which is said to have originated 16th century. ",
-        },
-      ];
-      const [userData, setUserData] = useState({});
-      const [appointments, setAppointment] = useState([]);
-      const userInfo = localStorage.getItem("user");
-      const userIn = userInfo ? JSON.parse(userInfo) : null;
-    
-      useEffect(() => {
-        const getDoctorUserData = async () => {
-          try {
-            const doctorData = await fetchUserData(userIn?._id);
-            setUserData(doctorData);
-          } catch (error) {
-            console.log("Error fetching doctor", error);
-          }
-        };
-    
-        getDoctorUserData();
-      }, [userIn?._id]);
-      const { users, doctor } = userData;
-      useEffect(() => {
-        const fetchAppointments = async () => {
-          try {
-            const doctorAppointment = await fetchDoctorAppointment(doctor._id);
-            setAppointment(doctorAppointment);
-          } catch (error) {
-            console.log("Error fetching appointments!", error);
-          }
-        };
-        fetchAppointments();
-      }, [doctor?._id]);
-    
-      const dateFormat = function (dateString) {
-        const date = new Date(dateString);
-        const day = date.getDate();
-        const month = date.toLocaleString("default", { month: "short" });
-        const year = date.getFullYear();
-    
-        const daySuffix = (day) => {
-          if (day > 3 && day < 21) return "th";
-          switch (day % 10) {
-            case 1:
-              return "st";
-            case 2:
-              return "nd";
-            case 3:
-              return "rd";
-            default:
-              return "th";
-          }
-        };
-        return `${day}${daySuffix(day)} , ${month} ${year}`;
-      };
+  const navigate = useNavigate();
+  const patientReview = [
+    {
+      name: "Carl Oliver",
+      job: "PA",
+      image: app1,
+      review:
+        " There is now an in order to have a  ready-made  text to sing with the melody alternatives to the classic Lorem Ipsum texts are amusing.",
+    },
+    {
+      name: "Barbara McIntosh",
+      job: "M.D",
+      image: app2,
+      review:
+        " There is now an in order to have a ready-made text to sing with the melody alternatives to the classic Lorem Ipsum texts are amusing.",
+    },
+    {
+      name: "Christa Smith",
+      job: "Manager",
+      image: app3,
+      review:
+        " There is now an in order to have a ready-made text to sing with the melody alternatives to the classic Lorem Ipsum texts are amusing.",
+    },
+    {
+      name: "Dean Tolle",
+      job: "Developer",
+      image: app5,
+      review:
+        " According to most sources in order to have a ready-made text to sing with the melody the origin of the text by compiling all the instances. ",
+    },
+    {
+      name: "Wendy Filson",
+      job: "Designer",
+      image: app3,
+      review:
+        "It seems that only in order to have a ready-made text to sing with the melody Lorem Ipsum, which is said to have originated 16th century. ",
+    },
+  ];
+  const [userData, setUserData] = useState({});
+  const [appointments, setAppointment] = useState([]);
+  const userInfo = localStorage.getItem("user");
+  const userIn = userInfo ? JSON.parse(userInfo) : null;
+
+  useEffect(() => {
+    const getDoctorUserData = async () => {
+      try {
+        const doctorData = await fetchUserData(userIn?._id);
+        setUserData(doctorData);
+      } catch (error) {
+        console.log("Error fetching doctor", error);
+      }
+    };
+
+    getDoctorUserData();
+  }, [userIn?._id]);
+  const { users, doctor } = userData;
+
+  //Fetching user appointments
+  const [appointment, setAppointments] = useState([]);
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await axios.get(
+          `/api/user/user-appointments/${userIn?._id}`
+        );
+        setAppointment(response.data);
+      } catch (error) {
+        console.log("Error fetching appointments!", error);
+      }
+    };
+    fetchAppointments();
+  }, [userIn?._id]);
+
+  //Fetching Approve docotrs
+  const [approvedDoctors, setApprovedDoctors] = useState([]);
+  useEffect(() => {
+    const fetchApprovedDoctors = async () => {
+      try {
+        const response = await axios.get("/api/user/approved-doctors");
+        setApprovedDoctors(response.data);
+      } catch (error) {
+        console.log("Error fetching approved doctors!", error);
+      }
+    };
+    fetchApprovedDoctors();
+  }, []);
+
+  const dateFormat = function (dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString("default", { month: "short" });
+    const year = date.getFullYear();
+
+    const daySuffix = (day) => {
+      if (day > 3 && day < 21) return "th";
+      switch (day % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+    return `${day}${daySuffix(day)} , ${month} ${year}`;
+  };
   return (
-     <Layout>
+    <Layout>
       <h2 className=" text-2xl px-6 text-gray-500 mb-4 font-semibold">
-        Dashboard
+        User Dashboard
       </h2>
       <div className=" w-full flex items-center justify-center gap-4 mb-5">
         <div className=" w-[23%] shadow-md px-3 py-3 rounded-md">
@@ -239,11 +259,67 @@ const DashboardUser = () => {
           <div className=" flex items-center justify-between px-2 py-6">
             <h3 className=" font-semibold flex items-center gap-2 ">
               {" "}
-              <GrTemplate className="text-[#064FF0] text-xl" /> Latest
-              Appointment
+              <FaUserDoctor className="text-[#064FF0] text-xl" />
+              Doctors
             </h3>
             <p className=" font-semibold text-gray-400">
-              {appointments.length} Patients
+              {approvedDoctors.length} Doctors
+            </p>
+          </div>
+          <hr />
+          <div>
+            {approvedDoctors && (
+              <div className=" mt-3">
+                {approvedDoctors.map((doctor) => (
+                  <div
+                    key={doctor._id}
+                    className=" px-3 mt-2 flex items-center justify-between"
+                  >
+                    <div className=" w-full flex items-center pb-2 gap-4">
+                      <img
+                        src={app1}
+                        alt="senderImg"
+                        className=" w-12 h-12 rounded-full"
+                      />
+                      <div className=" w-full">
+                        <strong>
+                          {doctor.firstName} {doctor.lastName}
+                        </strong>
+                        <div className=" w-full flex items-center justify-between">
+                          <p className=" text-gray-500 text-xs">
+                            <strong>Specialization: </strong>
+                            {doctor.specialization.length > 10
+                              ? doctor.specialization.substring(0, 10)
+                              : doctor.specialization}
+                          </p>
+                          <p className=" flex gap-1 text-gray-500 text-xs">
+                            <strong>Status:</strong>{" "}
+                            <span
+                              className={`${
+                                doctor.status === "Approved"
+                                  ? `  bg-green-100 text-green-700  px-1 py-[0.10rem] rounded-md`
+                                  : `bg-orange-100 text-orange-700  px-1 py-[0.10rem] rounded-md`
+                              }`}
+                            >{doctor.status}</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className=" w-[31.4%] rounded-md  border-gray-200 border-[1px]">
+          <div className=" flex items-center justify-between px-2 py-6">
+            <h3 className=" font-semibold flex items-center gap-2 ">
+              {" "}
+              <GrTemplate className="text-[#064FF0] text-xl" /> Your
+              Appointments
+            </h3>
+            <p className=" font-semibold text-gray-400">
+              {appointments.length} Appointments
             </p>
           </div>
           <hr />
@@ -255,59 +331,34 @@ const DashboardUser = () => {
                     key={appointment._id}
                     className=" px-3 mt-2 flex items-center justify-between"
                   >
-                    <div className=" flex items-center pb-2 gap-4">
+                    <div className=" w-full flex items-center pb-2 gap-4">
                       <img
                         src={app1}
                         alt="senderImg"
                         className=" w-12 h-12 rounded-full"
                       />
-                      <p>
-                        <strong>{appointment?.user.name} Mustapha</strong>
-                        <p className=" text-gray-500 text-sm">
-                          Booked for {dateFormat(appointment.date)}
-                        </p>
-                      </p>
+                      <div className=" w-[90%] ">
+                        <strong>{appointment?.user.name}</strong>
+                        <div className=" flex text-xs  w-full items-center justify-between">
+                          <p className=" text-gray-500">
+                            Date {dateFormat(appointment.date)}
+                          </p>
+                          <p className="">
+                            {" "}
+                            <strong>Status:</strong>{" "}
+                            <span
+                              className={`${
+                                appointment.status === "Approved"
+                                  ? `  bg-green-100 text-green-700  px-1 py-[0.10rem] rounded-md`
+                                  : `bg-orange-100 text-orange-700  px-1 py-[0.10rem] rounded-md`
+                              }`}
+                            >
+                              {appointment.status}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <IoMdArrowForward />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-        <div className=" w-[31.4%] rounded-md  border-gray-200 border-[1px]">
-          <div className=" flex items-center justify-between px-2 py-6">
-            <h3 className=" font-semibold flex items-center gap-2 ">
-              {" "}
-              <GrTemplate className="text-[#064FF0] text-xl" /> Upcoming
-              Appointment
-            </h3>
-            <p className=" font-semibold text-gray-400">55 Patients</p>
-          </div>
-          <hr />
-          <div>
-            {appointments && (
-              <div className=" mt-3">
-                {appointments.map((appointment) => (
-                  <div
-                    key={appointment._id}
-                    className=" px-3 mt-2 flex items-center justify-between"
-                  >
-                    <div className=" flex items-center pb-2 gap-4">
-                      <img
-                        src={app1}
-                        alt="senderImg"
-                        className=" w-12 h-12 rounded-full"
-                      />
-                      <p>
-                        <strong>{appointment?.user.name} Mustapha</strong>
-                        <p className=" text-gray-500 text-sm">
-                          Booked for {dateFormat(appointment.date)}
-                        </p>
-                      </p>
-                    </div>
-
-                    <IoMdArrowForward />
                   </div>
                 ))}
               </div>
@@ -395,17 +446,17 @@ const DashboardUser = () => {
           {users?.unseenNotifications.length >= 1 ? (
             <p className=" text-center text-gray-400">
               {users?.unseenNotifications.map((notification) => (
-               <p className=" cursor-pointer">
-               <span className=" cursor-pointer">
-                 {notification.message}
-               </span>
-               <span
-                 onClick={() => navigate(notification.onClickPath)}
-                 className=" flex items-center mt-2 justify-center cursor-pointer gap-2 text-blue-600 text-sm font-semibold"
-               >
-                 Read More <IoMdArrowForward />
-               </span>
-             </p>
+                <p className=" cursor-pointer">
+                  <span className=" cursor-pointer">
+                    {notification.message}
+                  </span>
+                  <span
+                    onClick={() => navigate(notification.onClickPath)}
+                    className=" flex items-center mt-2 justify-center cursor-pointer gap-2 text-blue-600 text-sm font-semibold"
+                  >
+                    Read More <IoMdArrowForward />
+                  </span>
+                </p>
               ))}
             </p>
           ) : (
@@ -413,7 +464,6 @@ const DashboardUser = () => {
               {" "}
               Due to its wide spread use as filler text
             </p>
-            
           )}
         </div>
         <div className=" border-gray-200 flex items-center flex-col rounded-md px-4 py-5 border-[1px]">
@@ -472,21 +522,8 @@ const DashboardUser = () => {
           </p>
         </div>
       </div>
-      {/* {users && doctor && (
-        <div className="w-[30%] rounded-md shadow-md border-gray-300 border-[1px] px-2 py-3 ">
-          <p className=" uppercase border-b-gray-400 border-b-[1px]">
-            Dr. {doctor.firstName} {doctor.lastName}
-          </p>
-          <div className=" mt-1">
-            <p>Phone number: {doctor.phoneNumber}</p>
-            <p>Address: {doctor.address}</p>
-            <p>Fee per visit: ${doctor.feePerConsultation}</p>
-            <p>Timings:{convertedTimings}</p>
-          </div>
-        </div>
-      )} */}
     </Layout>
-  )
-}
+  );
+};
 
-export default DashboardUser
+export default DashboardUser;

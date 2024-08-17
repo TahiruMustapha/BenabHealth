@@ -63,7 +63,7 @@ function Layout({ children }) {
       path: "/admin-dashboard",
       icon: <LuLayoutDashboard />,
     },
-    
+
     {
       name: "Doctors",
       path: "/approve-doctors",
@@ -106,12 +106,18 @@ function Layout({ children }) {
     },
   ];
   const { user } = useSelector((state) => state.user);
-  const isUser = !user?.isAdmin && !user?.isDoctor;
+  const [userss, setUsers] = useState({});
+  const isUser = !userss?.isAdmin && !userss?.isDoctor;
 
   const navigate = useNavigate();
   const [doctorUserData, setDoctorUserData] = useState({});
   const userInfo = localStorage.getItem("user");
   const userIn = userInfo ? JSON.parse(userInfo) : null;
+  useEffect(() => {
+    const users = JSON.parse(localStorage.getItem("user")) || {};
+    setUsers(users);
+  }, []);
+  // console.log(userss);
   useEffect(() => {
     const getDoctorUserData = async () => {
       try {
@@ -125,7 +131,7 @@ function Layout({ children }) {
     getDoctorUserData();
   }, [userIn._id]);
   const { users, doctor } = doctorUserData;
-  
+
   return (
     <div className="main">
       <div className="flex layout">
@@ -135,7 +141,7 @@ function Layout({ children }) {
               <h1 className="sideBar-title">BH</h1>
             </div>
           </div>
-          {user?.isDoctor && (
+          {userss?.isDoctor && (
             <div className="menu">
               {doctorMenu.map((doctor) => {
                 const isActive = location.pathname === doctor.path;
@@ -162,7 +168,7 @@ function Layout({ children }) {
               })}
             </div>
           )}
-          {user?.isAdmin && (
+          {userss?.isAdmin && (
             <div className="menu">
               {adminMenu.map((admin) => {
                 const isActive = location.pathname === admin.path;
@@ -216,13 +222,14 @@ function Layout({ children }) {
               className={`${collapse ? `colapseTrue` : ` menu-item`} `}
               onClick={() => {
                 localStorage.clear();
-                navigate("/login");
+                user = {};
+                navigate("/");
               }}
             >
               <span>
                 <FiLogOut />
               </span>
-              {!collapse && <Link to={"/login"}>Logout</Link>}
+              {!collapse && <Link to={"/"}>Logout</Link>}
             </div>
           </div>
         </div>
@@ -256,11 +263,11 @@ function Layout({ children }) {
               )}
               <Link
                 className=" w-11 h-11 bg-[#053b50] rounded-full flex items-center justify-center text-white text-base font-semibold"
-                to={user?.isDoctor? `/doctor-profile`:`/profile`}
+                to={userss?.isDoctor ? `/doctor-profile` : `/user-profile`}
               >
-                {user?.isDoctor
+                {userss?.isDoctor
                   ? doctor?.firstName.charAt(0) + doctor?.lastName.charAt(0)
-                  : user?.name.charAt(0)}
+                  : userss?.name?.charAt(0) || ""}
               </Link>
             </div>
           </div>
