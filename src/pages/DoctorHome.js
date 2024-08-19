@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import appointmentData from "../chartData/appointmentData.json";
 import { Bar, Doughnut, Line, PolarArea } from "react-chartjs-2";
-import Chart from "chart.js/auto";
+import Chart, { Legend, plugins } from "chart.js/auto";
 import { GrTemplate } from "react-icons/gr";
 import app1 from "../images/app1.jpg";
 import app2 from "../images/app2.jpg";
@@ -129,11 +129,146 @@ const DoctorHome = () => {
     return `${day}${daySuffix(day)} , ${month} ${year}`;
   };
   // console.log(users);
+  const getCurrentDateTime = function () {
+    const now = new Date();
+
+    //get day of thre week
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const dayOfweek = daysOfWeek[now.getDay()];
+
+    //Get months in days
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const month = months[now.getMonth()];
+
+    //Get day of the month
+    const day = now.getDay();
+
+    //Get year
+    const year = now.getFullYear();
+    //Get time
+    const hours = now.getHours().toString().padStart(2, "0");
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    const seconds = now.getSeconds().toString().padStart(2, "0");
+
+    //Format the date in words
+    const formattedDate = `${dayOfweek}, ${month} ${day}, ${year}`;
+
+    //Format the time
+    const formattedTime = `${hours}:${minutes}:${seconds}`;
+
+    return `${formattedDate} | ${formattedTime}`;
+  };
+  const chartData = [
+    {
+      label: "Monday",
+      data: 40,
+    },
+    {
+      label: "Tuesday",
+      data: 30,
+    },
+    {
+      label: "Wednesday",
+      data: 41,
+    },
+    {
+      label: "Thurday",
+      data: 35,
+    },
+    {
+      label: "Friday",
+      data: 40,
+    },
+  ];
   return (
     <Layout>
       <h2 className=" text-2xl px-6 text-gray-500 mb-4 font-semibold">
         Dashboard
       </h2>
+      <div className=" flex items-center gap-3 px-6 mb-5">
+        <div className=" px-4 py-3 rounded-md border-gray-100 border-[1px] w-[50%] shadow-md">
+          <div className=" flex items-center justify-between">
+            <p className=" font-semibold text-3xl capitalize">Good morning!</p>
+            <p className="text-gray-500 text-sm">{getCurrentDateTime()}</p>
+          </div>
+
+          <p className="text-[#053b50] font-bold">
+            Dr. {doctor?.firstName} {doctor?.lastName}
+          </p>
+          <div className=" flex items-center gap-3 mt-2">
+            <div className=" border-gray-200 border-[1px] px-3 py-1 rounded-md">
+              <p className=" text-gray-500 font-semibold">
+                Total Appointments Today
+              </p>
+              <p className=" text-center font-bold text-2xl text-[#41B06E]">
+                23
+              </p>
+            </div>
+            <div className=" border-gray-200 border-[1px] px-3 py-1 rounded-md">
+              <p className=" text-gray-500 font-semibold">
+                Appointments Cancelled
+              </p>
+              <p className=" text-center font-bold text-2xl text-[#FF0000]">
+                43
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className=" w-[25%] px-4 py-3 rounded-md border-gray-100 border-[1px] shadow-md">
+          <div className=" flex items-center justify-between">
+            <p className=" text-sm  font-semibold">Weekly Reports</p>
+            <p className=" text-sm text-gray-500">Last Week</p>
+          </div>
+          <div className="">
+          <Line
+            data={{
+              labels: chartData.map((data) => data.label),
+              datasets: [
+                {
+                  label: "Approved",
+                  data: chartData.map((data)=>data.data),
+                  fill: false,
+                  backgroundColor: "#F99417",
+                  borderColor: "#F99417",
+                  tension: 0.1,
+                },
+              ],
+            }}
+          />
+          </div>
+        </div>
+        <div className="px-4 py-3 rounded-md border-gray-100 border-[1px] shadow-md w-[25%] flex items-center gap-3 ">
+          <p className="text-[#053b50] font-semibold">
+            You have a new <br /> message <br /> Doctor!
+          </p>
+          <img
+            src={app1}
+            className=" w-[9.5rem] h-[9.5rem] rounded-md"
+            alt="doctor-Img"
+          />
+        </div>
+      </div>
       <div className=" w-full flex items-center justify-center gap-4 mb-5">
         <div className=" w-[23%] shadow-md px-3 py-3 rounded-md">
           <div className=" w-full flex items-center justify-between">
@@ -243,7 +378,7 @@ const DoctorHome = () => {
               Appointment
             </h3>
             <p className=" font-semibold text-gray-400">
-              {appointments.length} Patients
+              {appointments.length} Appointments
             </p>
           </div>
           <hr />
@@ -262,7 +397,7 @@ const DoctorHome = () => {
                         className=" w-12 h-12 rounded-full"
                       />
                       <p>
-                        <strong>{appointment?.user.name} Mustapha</strong>
+                        <strong>{appointment?.user.name}</strong>
                         <p className=" text-gray-500 text-sm">
                           Booked for {dateFormat(appointment.date)}
                         </p>
@@ -279,8 +414,8 @@ const DoctorHome = () => {
           <div className=" flex items-center justify-between px-2 py-6">
             <h3 className=" font-semibold flex items-center gap-2 ">
               {" "}
-              <GrTemplate className="text-[#064FF0] text-xl" /> Upcoming
-              Appointment
+              <GrTemplate className="text-[#064FF0] text-xl" /> Appointment
+              Status
             </h3>
             <p className=" font-semibold text-gray-400">55 Patients</p>
           </div>
@@ -395,17 +530,17 @@ const DoctorHome = () => {
           {users?.unseenNotifications.length >= 1 ? (
             <p className=" text-center text-gray-400">
               {users?.unseenNotifications.map((notification) => (
-               <p className=" cursor-pointer">
-               <span className=" cursor-pointer">
-                 {notification.message}
-               </span>
-               <span
-                 onClick={() => navigate(notification.onClickPath)}
-                 className=" flex items-center mt-2 justify-center cursor-pointer gap-2 text-blue-600 text-sm font-semibold"
-               >
-                 Read More <IoMdArrowForward />
-               </span>
-             </p>
+                <p className=" cursor-pointer">
+                  <span className=" cursor-pointer">
+                    {notification.message}
+                  </span>
+                  <span
+                    onClick={() => navigate(notification.onClickPath)}
+                    className=" flex items-center mt-2 justify-center cursor-pointer gap-2 text-blue-600 text-sm font-semibold"
+                  >
+                    Read More <IoMdArrowForward />
+                  </span>
+                </p>
               ))}
             </p>
           ) : (
@@ -413,7 +548,6 @@ const DoctorHome = () => {
               {" "}
               Due to its wide spread use as filler text
             </p>
-            
           )}
         </div>
         <div className=" border-gray-200 flex items-center flex-col rounded-md px-4 py-5 border-[1px]">

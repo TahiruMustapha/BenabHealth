@@ -10,8 +10,9 @@ import { IoClose } from "react-icons/io5";
 import { FiUsers } from "react-icons/fi";
 import { LuLayoutDashboard, LuMenu } from "react-icons/lu";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { logout } from "../redux/userSlice";
 
 const fetchUserData = async (id) => {
   try {
@@ -106,18 +107,11 @@ function Layout({ children }) {
     },
   ];
   const { user } = useSelector((state) => state.user);
-  const [userss, setUsers] = useState({});
-  const isUser = !userss?.isAdmin && !userss?.isDoctor;
-
+  const isUser = !user?.isAdmin && !user?.isDoctor;
   const navigate = useNavigate();
   const [doctorUserData, setDoctorUserData] = useState({});
   const userInfo = localStorage.getItem("user");
   const userIn = userInfo ? JSON.parse(userInfo) : null;
-  useEffect(() => {
-    const users = JSON.parse(localStorage.getItem("user")) || {};
-    setUsers(users);
-  }, []);
-  // console.log(userss);
   useEffect(() => {
     const getDoctorUserData = async () => {
       try {
@@ -127,11 +121,10 @@ function Layout({ children }) {
         console.log("Error fetching doctor", error);
       }
     };
-
     getDoctorUserData();
   }, [userIn._id]);
   const { users, doctor } = doctorUserData;
-
+  const dispatch = useDispatch();
   return (
     <div className="main">
       <div className="flex layout">
@@ -141,7 +134,7 @@ function Layout({ children }) {
               <h1 className="sideBar-title">BH</h1>
             </div>
           </div>
-          {userss?.isDoctor && (
+          {user?.isDoctor && (
             <div className="menu">
               {doctorMenu.map((doctor) => {
                 const isActive = location.pathname === doctor.path;
@@ -168,7 +161,7 @@ function Layout({ children }) {
               })}
             </div>
           )}
-          {userss?.isAdmin && (
+          {user?.isAdmin && (
             <div className="menu">
               {adminMenu.map((admin) => {
                 const isActive = location.pathname === admin.path;
@@ -222,7 +215,8 @@ function Layout({ children }) {
               className={`${collapse ? `colapseTrue` : ` menu-item`} `}
               onClick={() => {
                 localStorage.clear();
-                user = {};
+                dispatch(logout());
+                // user = {};
                 navigate("/");
               }}
             >
@@ -247,15 +241,15 @@ function Layout({ children }) {
                 <IoClose className=" text-2xl text-[20px] cursor-pointer" />
               </span>
             )}
-            <div className="  relative px-3 flex gap-4 items-center">
+            <div className="  relative px-3 flex gap-2 items-center">
               {user && (
                 <p
                   onClick={() => navigate("/notifications")}
-                  className=" cursor-pointer"
+                  className=" cursor-pointer "
                 >
-                  <IoMdNotificationsOutline className=" text-2xl" />
+                  <IoMdNotificationsOutline className=" text-2xl"/>
                   {user?.unseenNotifications.length >= 1 && (
-                    <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-7px] right-[4.8rem]  absolute">
+                    <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-1px] right-[3.6rem]  absolute">
                       {user?.unseenNotifications.length}
                     </span>
                   )}
@@ -263,11 +257,11 @@ function Layout({ children }) {
               )}
               <Link
                 className=" w-11 h-11 bg-[#053b50] rounded-full flex items-center justify-center text-white text-base font-semibold"
-                to={userss?.isDoctor ? `/doctor-profile` : `/user-profile`}
+                to={user?.isDoctor ? `/doctor-profile` : `/user-profile`}
               >
-                {userss?.isDoctor
+                {user?.isDoctor
                   ? doctor?.firstName.charAt(0) + doctor?.lastName.charAt(0)
-                  : userss?.name?.charAt(0) || ""}
+                  : user?.name?.charAt(0) || ""}
               </Link>
             </div>
           </div>

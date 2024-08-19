@@ -8,11 +8,18 @@ const Appointments = () => {
   const userInfo = localStorage.getItem("user");
   const userIn = userInfo ? JSON.parse(userInfo) : null;
   const [appointment, setAppointment] = useState([]);
+  const [userData, setUserData] = useState({});
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("user")) || {};
+    setUserData(userInfo);
+  }, []);
+  console.log(userData._id);
+  let id = "668b0a7c6702780b8f30df12";
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(
-          `/api/user/user-appointments/${userIn?._id}`
+          `/api/user/user-appointments/${userData?._id}`
         );
         setAppointment(response.data);
       } catch (error) {
@@ -20,8 +27,8 @@ const Appointments = () => {
       }
     };
     fetchAppointments();
-  }, [userIn?._id]);
-  // console.log(appointment);
+  }, [userData?._id]);
+  // console.log(userIn);
   const date = moment(appointment?.date).format("MM/DD/YYYY");
   const time = moment(appointment?.date).format("h:mm:ss a");
   const formatDate = (dateString) => {
@@ -63,7 +70,7 @@ const Appointments = () => {
             </th>
           </tr>
         </thead>
-        {appointment.length >= 0 ? (
+        {appointment?.length >= 0 ? (
           <tbody>
             {appointment.map((userAppointment) => (
               <tr key={userAppointment._id}>
