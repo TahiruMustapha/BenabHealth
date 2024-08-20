@@ -261,7 +261,7 @@ const AdminDashboard = () => {
                       className=" w-12 h-12 rounded-full"
                     />
                     <p>
-                      <strong>{appointment?.user.name} Mustapha</strong>
+                      <strong>{appointment?.user.name}</strong>
                       <p className=" text-gray-500 text-sm">
                         Booked for {dateFormat(appointment.date)}
                       </p>

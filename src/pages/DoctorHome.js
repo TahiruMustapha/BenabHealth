@@ -382,28 +382,41 @@ const DoctorHome = () => {
             </p>
           </div>
           <hr />
-          <div>
+          <div className=" w-full ">
             {appointments && (
-              <div className=" mt-3">
+              <div className=" mt-3 w-full ">
                 {appointments.map((appointment) => (
                   <div
                     key={appointment._id}
-                    className=" px-3 mt-2 flex items-center justify-between"
+                    className=" px-3 mt-2 w-full  flex items-center justify-between"
                   >
-                    <div className=" flex items-center pb-2 gap-4">
+                    <div className=" flex w-full  items-center pb-2 gap-4">
                       <img
                         src={app1}
                         alt="senderImg"
                         className=" w-12 h-12 rounded-full"
                       />
-                      <p>
+                      <div className=" w-full">
                         <strong>{appointment?.user.name}</strong>
+                        <div className=" flex items-center justify-between w-ful">
                         <p className=" text-gray-500 text-sm">
                           Booked for {dateFormat(appointment.date)}
                         </p>
-                      </p>
+                        <p className=" flex gap-1 text-gray-500 text-xs">
+                            {/* <strong>Status:</strong>{" "} */}
+                            <span
+                              className={`${
+                                appointment.status === "Approved"
+                                  ? `  bg-green-100 text-green-700  px-1 py-[0.10rem] rounded-md`
+                                  : `bg-orange-100 text-orange-700  px-1 py-[0.10rem] rounded-md`
+                              }`}
+                            >{appointment.status}</span>
+                          </p>
+                        </div>
+                       
+                      </div>
                     </div>
-                    <IoMdArrowForward />
+                
                   </div>
                 ))}
               </div>
@@ -428,21 +441,32 @@ const DoctorHome = () => {
                     key={appointment._id}
                     className=" px-3 mt-2 flex items-center justify-between"
                   >
-                    <div className=" flex items-center pb-2 gap-4">
+                    <div className=" w-full flex items-center pb-2 gap-4">
                       <img
                         src={app1}
                         alt="senderImg"
                         className=" w-12 h-12 rounded-full"
                       />
-                      <p>
-                        <strong>{appointment?.user.name} Mustapha</strong>
+                     <div className=" w-full">
+                        <strong>{appointment?.user.name}</strong>
+                        <div className=" flex items-center justify-between w-ful">
                         <p className=" text-gray-500 text-sm">
                           Booked for {dateFormat(appointment.date)}
                         </p>
-                      </p>
+                        <p className=" flex gap-1 text-gray-500 text-xs">
+                            {/* <strong>Status:</strong>{" "} */}
+                            <span
+                              className={`${
+                                appointment.status === "Approved"
+                                  ? `  bg-green-100 text-green-700  px-1 py-[0.10rem] rounded-md`
+                                  : `bg-orange-100 text-orange-700  px-1 py-[0.10rem] rounded-md`
+                              }`}
+                            >{appointment.status}</span>
+                          </p>
+                        </div>
+                       
+                      </div>
                     </div>
-
-                    <IoMdArrowForward />
                   </div>
                 ))}
               </div>

@@ -80,7 +80,15 @@ const Notification = () => {
       dispatch(hideLoading());
       if (response.data.success) {
         toast.success(response.data.message);
+
         dispatch(setUser(response.data.data));
+        if (user?.isDoctor) {
+          navigate(`/doctor-home`);
+        } else if (user?.isAdmin) {
+          navigate(`/admin-dashboard`);
+        } else if (!user?.isAdmin && !user?.isDoctor) {
+          navigate(`/user-dashboard`);
+        }
       } else {
         toast.error(response.data.message);
       }

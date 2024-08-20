@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import { GoDatabase } from "react-icons/go";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const fetchUserData = async (id) => {
   try {
@@ -25,25 +26,21 @@ const DoctorAppointments = () => {
   const [appointments, setAppointment] = useState([]);
   const [doctorUserData, setDoctorUserData] = useState({});
   const userInfo = localStorage.getItem("user");
+  const { user } = useSelector((state) => state.user);
   const userIn = userInfo ? JSON.parse(userInfo) : null;
   useEffect(() => {
     const getDoctorUserData = async () => {
       try {
-        const doctorData = await fetchUserData(userIn._id);
+        const doctorData = await fetchUserData(userIn?._id);
         setDoctorUserData(doctorData);
       } catch (error) {
         console.log("Error fetching doctor", error);
       }
     };
-
     getDoctorUserData();
-  }, []);
+  }, [userIn?._id]);
+  // console.log(user?._id);
   const { users, doctor } = doctorUserData;
-  // console.log(doctor._id)
-  // const doctorId = doctor._id;
-  // console.log(doctor?._id);
-  // const id = "669e5c8e095ca441a2977fbe";
-
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
@@ -120,7 +117,10 @@ const DoctorAppointments = () => {
                   {formatDate(appointment.date)}
                   <span className="">
                     {appointment.time.map((time, index) => (
-                      <span  className="" key={index}> {formatTime(time)}</span>
+                      <span className="" key={index}>
+                        {" "}
+                        {formatTime(time)}
+                      </span>
                     ))}
                   </span>
                 </td>

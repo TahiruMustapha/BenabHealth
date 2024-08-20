@@ -65,11 +65,11 @@ function Layout({ children }) {
       icon: <LuLayoutDashboard />,
     },
 
-    {
-      name: "Doctors",
-      path: "/approve-doctors",
-      icon: <RxHome />,
-    },
+    // {
+    //   name: "Doctors",
+    //   path: "/approve-doctors",
+    //   icon: <RxHome />,
+    // },
     {
       name: "Users",
       path: "/admin-users",
