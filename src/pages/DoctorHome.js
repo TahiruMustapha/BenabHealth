@@ -167,10 +167,27 @@ const DoctorHome = () => {
     //Get year
     const year = now.getFullYear();
     //Get time
-    const hours = now.getHours().toString().padStart(2, "0");
+    let hours = now.getHours();
     const minutes = now.getMinutes().toString().padStart(2, "0");
     const seconds = now.getSeconds().toString().padStart(2, "0");
+    // Determine AM or PM
+    const ampm = hours >= 12 ? "PM" : "AM";
 
+    hours = hours % 12 || 12;
+
+    hours = hours.toString().padStart(2, "0");
+
+    //greetings
+    let greetings;
+    if (ampm === "AM" && hours < 12) {
+      greetings = "Good Morning!";
+    }else if(ampm === "PM" && hours < 6){
+      greetings = "Good Afternoon!";
+    }else if(ampm === "PM" && hours < 9){
+      greetings = "Good Evening!";
+    }else {
+      greetings = "Good Night!";
+    }
     //Format the date in words
     const formattedDate = `${dayOfweek}, ${month} ${day}, ${year}`;
 
@@ -209,7 +226,7 @@ const DoctorHome = () => {
       <div className=" flex items-center gap-3 px-6 mb-5">
         <div className=" px-4 py-3 rounded-md border-gray-100 border-[1px] w-[50%] shadow-md">
           <div className=" flex items-center justify-between">
-            <p className=" font-semibold text-3xl capitalize">Good morning!</p>
+            <p className=" font-semibold text-3xl capitalize">Good Morning</p>
             <p className="text-gray-500 text-sm">{getCurrentDateTime()}</p>
           </div>
 
@@ -241,21 +258,21 @@ const DoctorHome = () => {
             <p className=" text-sm text-gray-500">Last Week</p>
           </div>
           <div className="">
-          <Line
-            data={{
-              labels: chartData.map((data) => data.label),
-              datasets: [
-                {
-                  label: "Approved",
-                  data: chartData.map((data)=>data.data),
-                  fill: false,
-                  backgroundColor: "#F99417",
-                  borderColor: "#F99417",
-                  tension: 0.1,
-                },
-              ],
-            }}
-          />
+            <Line
+              data={{
+                labels: chartData.map((data) => data.label),
+                datasets: [
+                  {
+                    label: "Approved",
+                    data: chartData.map((data) => data.data),
+                    fill: false,
+                    backgroundColor: "#F99417",
+                    borderColor: "#F99417",
+                    tension: 0.1,
+                  },
+                ],
+              }}
+            />
           </div>
         </div>
         <div className="px-4 py-3 rounded-md border-gray-100 border-[1px] shadow-md w-[25%] flex items-center gap-3 ">
@@ -399,10 +416,10 @@ const DoctorHome = () => {
                       <div className=" w-full">
                         <strong>{appointment?.user.name}</strong>
                         <div className=" flex items-center justify-between w-ful">
-                        <p className=" text-gray-500 text-sm">
-                          Booked for {dateFormat(appointment.date)}
-                        </p>
-                        <p className=" flex gap-1 text-gray-500 text-xs">
+                          <p className=" text-gray-500 text-sm">
+                            Booked for {dateFormat(appointment.date)}
+                          </p>
+                          <p className=" flex gap-1 text-gray-500 text-xs">
                             {/* <strong>Status:</strong>{" "} */}
                             <span
                               className={`${
@@ -410,13 +427,13 @@ const DoctorHome = () => {
                                   ? `  bg-green-100 text-green-700  px-1 py-[0.10rem] rounded-md`
                                   : `bg-orange-100 text-orange-700  px-1 py-[0.10rem] rounded-md`
                               }`}
-                            >{appointment.status}</span>
+                            >
+                              {appointment.status}
+                            </span>
                           </p>
                         </div>
-                       
                       </div>
                     </div>
-                
                   </div>
                 ))}
               </div>
@@ -447,13 +464,13 @@ const DoctorHome = () => {
                         alt="senderImg"
                         className=" w-12 h-12 rounded-full"
                       />
-                     <div className=" w-full">
+                      <div className=" w-full">
                         <strong>{appointment?.user.name}</strong>
                         <div className=" flex items-center justify-between w-ful">
-                        <p className=" text-gray-500 text-sm">
-                          Booked for {dateFormat(appointment.date)}
-                        </p>
-                        <p className=" flex gap-1 text-gray-500 text-xs">
+                          <p className=" text-gray-500 text-sm">
+                            Booked for {dateFormat(appointment.date)}
+                          </p>
+                          <p className=" flex gap-1 text-gray-500 text-xs">
                             {/* <strong>Status:</strong>{" "} */}
                             <span
                               className={`${
@@ -461,10 +478,11 @@ const DoctorHome = () => {
                                   ? `  bg-green-100 text-green-700  px-1 py-[0.10rem] rounded-md`
                                   : `bg-orange-100 text-orange-700  px-1 py-[0.10rem] rounded-md`
                               }`}
-                            >{appointment.status}</span>
+                            >
+                              {appointment.status}
+                            </span>
                           </p>
                         </div>
-                       
                       </div>
                     </div>
                   </div>

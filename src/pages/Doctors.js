@@ -63,7 +63,7 @@ const Doctors = () => {
               <th scope="col" className="px-6 py-3">
                 Status
               </th>
-              <th scope="col" className="px-6 mr-2 py-3">
+              <th scope="col" className=" px-6 w-[10px] py-3">
                 Actions
               </th>
             </tr>
@@ -94,10 +94,14 @@ const Doctors = () => {
                     <td className="cursor-pointer px-6 py-4 relative">
                       <HiDotsVertical
                         onClick={() => showActions(doctor._id)}
-                        className="text-gray-400  cursor-pointer text-xl"
+                        className="text-gray-400 ml-7  cursor-pointer text-xl"
                       />
                       {openActionId === doctor._id && (
                         <ActionBtns
+                        deleteType={'doctor'}
+                        approveType = {"applyDoctor"}
+                        approveText={"Approve"}
+                        deleteText={"Delete"}
                           actionRef={(ref) => (actionRefs.current[doctor._id] = ref)}
                           doctorId={doctor._id}
                         />

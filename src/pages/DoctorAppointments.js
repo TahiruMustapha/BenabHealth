@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "../components/Layout";
 import { GoDatabase } from "react-icons/go";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import ActionBtns from "../components/ActionBtns";
+import { HiDotsVertical } from "react-icons/hi";
 
 const fetchUserData = async (id) => {
   try {
@@ -25,6 +27,8 @@ const fetchDoctorAppointment = async (id) => {
 const DoctorAppointments = () => {
   const [appointments, setAppointment] = useState([]);
   const [doctorUserData, setDoctorUserData] = useState({});
+  const [openActionId, setOpenActionId] = useState(null); // Track the ID of the open action menu
+  const actionRefs = useRef({});
   const userInfo = localStorage.getItem("user");
   const { user } = useSelector((state) => state.user);
   const userIn = userInfo ? JSON.parse(userInfo) : null;
@@ -60,20 +64,27 @@ const DoctorAppointments = () => {
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   };
+
   const formatTime = (timeString) => {
     const options = { hour: "2-digit", minute: "2-digit", hour12: true };
     return new Date(timeString).toLocaleTimeString(undefined, options);
   };
-  const handlApprove = async (id) => {
-    try {
-      const response = await axios.put(`/api/user/approve-appointments/${id}`);
-      if (!response) {
-        toast.error("Unable to approve user appointment!");
-      }
-      toast.success("Appointment approved successfully!");
-    } catch (error) {
-      console.error("Error approving appointment:", error);
-    }
+  useEffect(() => {
+    const handler = (e) => {
+      Object.values(actionRefs.current).forEach((ref) => {
+        if (ref && !ref.contains(e.target)) {
+          setOpenActionId(null); // Close the menu if clicked outside
+        }
+      });
+    };
+
+    document.addEventListener("mousedown", handler);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  }, []);
+  const showActions = (id) => {
+    setOpenActionId((prevId) => (prevId === id ? null : id)); // Toggle the menu for the clicked row
   };
   return (
     <Layout>
@@ -102,7 +113,7 @@ const DoctorAppointments = () => {
               Status
             </th>
             <th scope="col" className="px-6 py-3">
-              Action
+              Actions
             </th>
           </tr>
         </thead>
@@ -125,12 +136,27 @@ const DoctorAppointments = () => {
                   </span>
                 </td>
                 <td className=" px-6 py-4">{appointment.status}</td>
-                <td
+                {/* <td
                   onClick={() => handlApprove(appointment._id)}
                   className=" underline cursor-pointer px-6 py-4"
                 >
                   Approve
-                </td>
+                </td> */}
+                <td className="cursor-pointer px-6 py-4 relative">
+                      <HiDotsVertical
+                        onClick={() => showActions(appointment._id)}
+                        className="text-gray-400 ml-7  cursor-pointer text-xl"
+                      />
+                      {openActionId === appointment._id && (
+                        <ActionBtns
+                        approveType = {"appointement"}
+                        rejectText={"Reject"}
+                        approveText={"Approve"} 
+                          actionRef={(ref) => (actionRefs.current[appointment._id] = ref)}
+                          doctorAppointmentId={appointment._id}
+                        />
+                      )}
+                    </td>
               </tr>
             ))}
           </tbody>

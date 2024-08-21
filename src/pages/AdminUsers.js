@@ -1,17 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "../components/Layout";
 import { FaUserDoctor } from "react-icons/fa6";
 import axios from "axios";
+import ActionBtns from "../components/ActionBtns";
+import { HiDotsVertical } from "react-icons/hi";
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
+  const [openActionId, setOpenActionId] = useState(null); // Track the ID of the open action menu
+  const actionRefs = useRef({});
   useEffect(() => {
     axios
       .get("/api/user/get-user-info")
       .then((user) => setUsers(user.data))
       .catch((err) => console.log(err));
   }, []);
-  console.log(users);
+  useEffect(() => {
+    const handler = (e) => {
+      Object.values(actionRefs.current).forEach((ref) => {
+        if (ref && !ref.contains(e.target)) {
+          setOpenActionId(null); // Close the menu if clicked outside
+        }
+      });
+    };
+
+    document.addEventListener("mousedown", handler);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  }, []);
+  // console.log(users);
+  const showActions = (id) => {
+    setOpenActionId((prevId) => (prevId === id ? null : id)); // Toggle the menu for the clicked row
+  };
   return (
     <Layout>
       <div>
@@ -34,6 +55,9 @@ const AdminUsers = () => {
             </th>
             <th scope="col" className="px-6 py-3">
               Created At
+            </th>
+            <th scope="col" className="px-6 w-[10px] py-3">
+              Actions
             </th>
           </tr>
         </thead>
@@ -62,6 +86,22 @@ const AdminUsers = () => {
                   </td>
 
                   <td className=" px-6 py-4">{formattedDate}</td>
+                  <td className="cursor-pointer px-6 py-4  relative">
+                    <HiDotsVertical
+                      onClick={() => showActions(user._id)}
+                      className="text-gray-400 ml-7  cursor-pointer text-xl"
+                    />
+                    {openActionId === user._id && (
+                      <ActionBtns
+                        userId={user._id}
+                        deleteType={"user"}
+                        deleteText={"Delete"}
+                        actionRef={(ref) =>
+                          (actionRefs.current[user._id] = ref)
+                        }
+                      />
+                    )}
+                  </td>
                 </tr>
               );
             })}

@@ -91,7 +91,19 @@ const Appointments = () => {
                     ))}
                   </span>
                 </td>
-                <td className=" px-6 py-4">{userAppointment.status}</td>
+                <td className=" px-6 py-4">
+                <p className=" flex gap-1 text-gray-500 text-xs">
+                  <span
+                    className={`${
+                      userAppointment.status === "Approved"
+                        ? `  bg-green-100 text-green-700  px-1 py-[0.10rem] rounded-md`
+                        : `bg-orange-100 text-orange-700  px-1 py-[0.10rem] rounded-md`
+                    }`}
+                  >
+                    {userAppointment.status}
+                  </span>
+                </p>
+                </td>
               </tr>
             ))}
           </tbody>
