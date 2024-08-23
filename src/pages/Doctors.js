@@ -2,22 +2,28 @@ import React, { useEffect, useRef, useState } from "react";
 import Layout from "../components/Layout";
 import { FaUserDoctor } from "react-icons/fa6";
 import axios from "axios";
-import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
 import { HiDotsVertical } from "react-icons/hi";
 import ActionBtns from "../components/ActionBtns";
 
 const Doctors = () => {
-  const { user } = useSelector((state) => state.user);
+  const fetchDoctors = async () => {
+    try {
+      const response = await axios.get("/api/user/get-doctor-info");
+      setDoctors(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const [doctors, setDoctors] = useState([]);
   const [openActionId, setOpenActionId] = useState(null); // Track the ID of the open action menu
   const actionRefs = useRef({});
 
   useEffect(() => {
-    axios
-      .get("/api/user/get-doctor-info")
-      .then((doctors) => setDoctors(doctors.data))
-      .catch((err) => console.log(err));
+    fetchDoctors();
+    // axios
+    //   .get("/api/user/get-doctor-info")
+    //   .then((doctors) => setDoctors(doctors.data))
+    //   .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
@@ -94,15 +100,18 @@ const Doctors = () => {
                     <td className="cursor-pointer px-6 py-4 relative">
                       <HiDotsVertical
                         onClick={() => showActions(doctor._id)}
-                        className="text-gray-400 ml-7  cursor-pointer text-xl"
+                        className="text-gray-500 bg-gray-100 w-6 h-6 rounded-full py-1 ml-7  cursor-pointer text-xl"
                       />
                       {openActionId === doctor._id && (
                         <ActionBtns
-                        deleteType={'doctor'}
-                        approveType = {"applyDoctor"}
-                        approveText={"Approve"}
-                        deleteText={"Delete"}
-                          actionRef={(ref) => (actionRefs.current[doctor._id] = ref)}
+                          deleteType={"doctor"}
+                          approveType={"applyDoctor"}
+                          approveText={"Approve"}
+                          deleteText={"Delete"}
+                          fetchDoctors = {fetchDoctors}
+                          actionRef={(ref) =>
+                            (actionRefs.current[doctor._id] = ref)
+                          }
                           doctorId={doctor._id}
                         />
                       )}

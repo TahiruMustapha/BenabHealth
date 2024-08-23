@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Layout from "../components/Layout";
 import { GoDatabase } from "react-icons/go";
 import axios from "axios";
-import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
 import ActionBtns from "../components/ActionBtns";
 import { HiDotsVertical } from "react-icons/hi";
 
@@ -30,7 +28,6 @@ const DoctorAppointments = () => {
   const [openActionId, setOpenActionId] = useState(null); // Track the ID of the open action menu
   const actionRefs = useRef({});
   const userInfo = localStorage.getItem("user");
-  const { user } = useSelector((state) => state.user);
   const userIn = userInfo ? JSON.parse(userInfo) : null;
   useEffect(() => {
     const getDoctorUserData = async () => {
@@ -43,20 +40,27 @@ const DoctorAppointments = () => {
     };
     getDoctorUserData();
   }, [userIn?._id]);
-  // console.log(user?._id);
-  const { users, doctor } = doctorUserData;
+  const { doctor } = doctorUserData;
+  const fetchAppointments = async () => {
+    try {
+      const doctorAppointment = await fetchDoctorAppointment(doctor?._id);
+      setAppointment(doctorAppointment);
+    } catch (error) {
+      console.log("Error fetching appointments!", error);
+    }
+  };
+  fetchAppointments();
   useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const doctorAppointment = await fetchDoctorAppointment(doctor?._id);
-        setAppointment(doctorAppointment);
-      } catch (error) {
-        console.log("Error fetching appointments!", error);
-      }
-    };
+    // const fetchAppointments = async () => {
+    //   try {
+    //     const doctorAppointment = await fetchDoctorAppointment(doctor?._id);
+    //     setAppointment(doctorAppointment);
+    //   } catch (error) {
+    //     console.log("Error fetching appointments!", error);
+    //   }
+    // };
     fetchAppointments();
-  }, [doctor?._id]);
-  // console.log(appointments);
+  }, []);
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
@@ -77,7 +81,6 @@ const DoctorAppointments = () => {
         }
       });
     };
-
     document.addEventListener("mousedown", handler);
     return () => {
       document.removeEventListener("mousedown", handler);
@@ -143,20 +146,23 @@ const DoctorAppointments = () => {
                   Approve
                 </td> */}
                 <td className="cursor-pointer px-6 py-4 relative">
-                      <HiDotsVertical
-                        onClick={() => showActions(appointment._id)}
-                        className="text-gray-400 ml-7  cursor-pointer text-xl"
-                      />
-                      {openActionId === appointment._id && (
-                        <ActionBtns
-                        approveType = {"appointement"}
-                        rejectText={"Reject"}
-                        approveText={"Approve"} 
-                          actionRef={(ref) => (actionRefs.current[appointment._id] = ref)}
-                          doctorAppointmentId={appointment._id}
-                        />
-                      )}
-                    </td>
+                  <HiDotsVertical
+                    onClick={() => showActions(appointment._id)}
+                    className="text-gray-400 ml-7  cursor-pointer text-xl"
+                  />
+                  {openActionId === appointment._id && (
+                    <ActionBtns
+                      approveType={"appointement"}
+                      rejectText={"Reject"}
+                      approveText={"Approve"}
+                      fetchAppointments={fetchAppointments}
+                      actionRef={(ref) =>
+                        (actionRefs.current[appointment._id] = ref)
+                      }
+                      doctorAppointmentId={appointment._id}
+                    />
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

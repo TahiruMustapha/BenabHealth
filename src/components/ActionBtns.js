@@ -1,10 +1,11 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { IoIosLogOut, IoMdCheckmark } from "react-icons/io";
 import { hideLoading, showLoading } from "../redux/alertSlice";
 import { useDispatch } from "react-redux";
+import ComfirmDeleteUser from "./ComfirmDeleteUser";
 
 const ActionBtns = ({
   actionRef,
@@ -16,8 +17,13 @@ const ActionBtns = ({
   approveType,
   userId,
   doctorAppointmentId,
+  fetchDoctors,
+  fetchUsers,
+  fetchAppointments,
+  setOpenActionId,
 }) => {
   const dispatch = useDispatch();
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const handlApproveApplyDoctorAccount = async (id) => {
     try {
       dispatch(showLoading());
@@ -27,53 +33,30 @@ const ActionBtns = ({
       }
       dispatch(hideLoading());
       toast.success("Doctor approved successfully!");
+      fetchDoctors();
     } catch (error) {
       console.error("Error approving doctor:", error);
     }
   };
   const handlApproveAppointments = async (id) => {
     try {
+      dispatch(showLoading());
       const response = await axios.put(`/api/user/approve-appointments/${id}`);
       if (!response) {
         toast.error("Unable to approve user appointment!");
       }
+      dispatch(hideLoading());
       toast.success("Appointment approved successfully!");
+      fetchAppointments();
     } catch (error) {
       console.error("Error approving appointment:", error);
     }
   };
-  const handlApprove = () => {
+  const handlApproveDoctorAccountAndAppointment = () => {
     if (approveType === "applyDoctor") {
       handlApproveApplyDoctorAccount(doctorId);
     } else if (approveType === "appointement") {
       handlApproveAppointments(doctorAppointmentId);
-    }
-  };
-  //   /delete-doctor/:id
-  const handlDeleteDoctor = async (id) => {
-    try {
-      dispatch(showLoading());
-      const response = await axios.delete(`/api/user/delete-doctor/${id}`);
-      if (!response) {
-        toast.error("Unable to delete doctor!");
-      }
-      dispatch(hideLoading());
-      toast.success("Doctor deleted successfully!");
-    } catch (error) {
-      console.error("Error error deleting doctor:", error);
-    }
-  };
-  const handlDeleteUser = async (id) => {
-    try {
-      dispatch(showLoading());
-      const response = await axios.delete(`/api/user/delete-user/${id}`);
-      if (!response) {
-        toast.error("Unable to delete user!");
-      }
-      dispatch(hideLoading());
-      toast.success("User deleted successfully!");
-    } catch (error) {
-      console.error("Error error deleting user:", error);
     }
   };
   const handleRejectAppointment = async (id) => {
@@ -85,16 +68,20 @@ const ActionBtns = ({
       }
       dispatch(hideLoading());
       toast.success("Appointment rejected successfully!");
+      fetchAppointments();
     } catch (error) {
       console.log("Error rejecting appointment", error);
     }
   };
-  const handleDelete = () => {
+  const handleDeleteDoctorAndUser = () => {
     if (deleteType === "doctor") {
-      handlDeleteDoctor(doctorId);
+      setOpenDeleteDialog(true);
     } else if (deleteType === "user") {
-      handlDeleteUser(userId);
+      setOpenDeleteDialog(true);
     }
+  };
+  const closeMenu = () => {
+    setOpenActionId(null);
   };
   return (
     <div
@@ -103,7 +90,7 @@ const ActionBtns = ({
     >
       {approveText && (
         <p
-          onClick={handlApprove}
+          onClick={handlApproveDoctorAccountAndAppointment}
           className=" flex items-center hover:bg-gray-200 px-1 py-1 rounded-sm justify-between"
         >
           {approveText}
@@ -112,10 +99,24 @@ const ActionBtns = ({
           </span>{" "}
         </p>
       )}
+      {openDeleteDialog && (
+        <ComfirmDeleteUser
+          deleteType={deleteType}
+          doctorId={doctorId}
+          setOpenDeleteDialog={setOpenDeleteDialog}
+          openDeleteDialog={openDeleteDialog}
+          userId={userId}
+          handleDeleteDoctorAndUser={handleDeleteDoctorAndUser}
+          fetchUsers={fetchUsers}
+          fetchDoctors={fetchDoctors}
+          setOpenActionId={setOpenActionId}
+          closeMenu={closeMenu}
+        />
+      )}
 
       {rejectText && (
         <p
-          onClick={()=>handleRejectAppointment(doctorAppointmentId)}
+          onClick={() => handleRejectAppointment(doctorAppointmentId)}
           className=" flex items-center hover:bg-gray-200 px-1 py-1 rounded-sm justify-between"
         >
           {rejectText}
@@ -127,7 +128,7 @@ const ActionBtns = ({
 
       {deleteText && (
         <p
-          onClick={handleDelete}
+          onClick={handleDeleteDoctorAndUser}
           className=" flex items-center hover:bg-gray-200 px-1 py-1 rounded-sm justify-between"
         >
           {deleteText}

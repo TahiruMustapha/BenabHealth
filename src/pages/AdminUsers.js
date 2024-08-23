@@ -4,16 +4,28 @@ import { FaUserDoctor } from "react-icons/fa6";
 import axios from "axios";
 import ActionBtns from "../components/ActionBtns";
 import { HiDotsVertical } from "react-icons/hi";
+import { ComfirmDeleteUser } from "../components/ComfirmDeleteUser";
 
 const AdminUsers = () => {
+ 
+
   const [users, setUsers] = useState([]);
   const [openActionId, setOpenActionId] = useState(null); // Track the ID of the open action menu
   const actionRefs = useRef({});
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("/api/user/get-user-info");
+      setUsers(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    axios
-      .get("/api/user/get-user-info")
-      .then((user) => setUsers(user.data))
-      .catch((err) => console.log(err));
+    fetchUsers();
+    // axios
+    //   .get("/api/user/get-user-info")
+    //   .then((user) => setUsers(user.data))
+    //   .catch((err) => console.log(err));
   }, []);
   useEffect(() => {
     const handler = (e) => {
@@ -29,7 +41,6 @@ const AdminUsers = () => {
       document.removeEventListener("mousedown", handler);
     };
   }, []);
-  // console.log(users);
   const showActions = (id) => {
     setOpenActionId((prevId) => (prevId === id ? null : id)); // Toggle the menu for the clicked row
   };
@@ -89,13 +100,15 @@ const AdminUsers = () => {
                   <td className="cursor-pointer px-6 py-4  relative">
                     <HiDotsVertical
                       onClick={() => showActions(user._id)}
-                      className="text-gray-400 ml-7  cursor-pointer text-xl"
+                      className="text-gray-500 ml-7 bg-gray-100 w-6 h-6 rounded-full py-1   cursor-pointer text-xl"
                     />
                     {openActionId === user._id && (
                       <ActionBtns
                         userId={user._id}
                         deleteType={"user"}
+                        fetchUsers={fetchUsers}
                         deleteText={"Delete"}
+                        setOpenActionId= {setOpenActionId}
                         actionRef={(ref) =>
                           (actionRefs.current[user._id] = ref)
                         }
