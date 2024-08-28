@@ -12,7 +12,6 @@ const ComfirmDeleteUser = ({
   deleteType,
   doctorId,
   fetchDoctors,
-  setOpenActionId,
 }) => {
   const dispatch = useDispatch();
   const modalRef = useRef();
@@ -20,7 +19,6 @@ const ComfirmDeleteUser = ({
     if (modalRef.current === e.target) setOpenDeleteDialog(!openDeleteDialog);
   };
   const handlDeleteUser = async (id) => {
-    setOpenActionId(null);
     try {
       dispatch(showLoading());
       const response = await axios.delete(`/api/user/delete-user/${id}`);
