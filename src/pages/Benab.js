@@ -1,10 +1,10 @@
 import React from "react";
 import { FaInstagram } from "react-icons/fa";
 import { CiFacebook } from "react-icons/ci";
-import doc1 from "../images/docotr1.jpg";
+
 import doc2 from "../images/doc2.webp";
 import doc3 from "../images/doc3.jpg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 const Benab = () => {
 
   return (

@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { reloadUserData, setUser } from "../redux/userSlice";
+import { setUser } from "../redux/userSlice";
 import { hideLoading, showLoading } from "../redux/alertSlice";
-import { setDoctor } from "../redux/doctorSlice";
 const ProtectedRoutes = (props) => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();

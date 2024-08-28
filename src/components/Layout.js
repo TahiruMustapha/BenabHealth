@@ -64,12 +64,6 @@ function Layout({ children }) {
       path: "/admin-dashboard",
       icon: <LuLayoutDashboard />,
     },
-
-    // {
-    //   name: "Doctors",
-    //   path: "/approve-doctors",
-    //   icon: <RxHome />,
-    // },
     {
       name: "Users",
       path: "/admin-users",
@@ -123,7 +117,7 @@ function Layout({ children }) {
     };
     getDoctorUserData();
   }, [userIn._id]);
-  const { users, doctor } = doctorUserData;
+  const { doctor } = doctorUserData;
   const dispatch = useDispatch();
   return (
     <div className="main">

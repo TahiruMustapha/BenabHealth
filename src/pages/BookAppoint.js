@@ -20,8 +20,6 @@ const BookAppoint = () => {
     const getDoctor = async () => {
       try {
         const response = await axios.get(`/api/user/doctors-home/${id}`);
-
-        // const doctorData = await fetchDoctorById(id);
         setDoctor(response.data);
       } catch (error) {
         console.log("Error fetching doctor", error);
@@ -30,9 +28,6 @@ const BookAppoint = () => {
 
     getDoctor();
   }, []);
-  console.log(doctor);
-  // console.log( typeof(doctor.timings) );
-  // const timings = doctor.timings
   function formatTime(time) {
     const date = new Date(time);
     let hours = date.getHours();

@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { GoDatabase } from "react-icons/go";
 import axios from "axios";
-import moment from "moment";
-
 const Appointments = () => {
-  const userInfo = localStorage.getItem("user");
-  const userIn = userInfo ? JSON.parse(userInfo) : null;
   const [appointment, setAppointment] = useState([]);
   const [userData, setUserData] = useState({});
   useEffect(() => {
@@ -28,9 +24,6 @@ const Appointments = () => {
     };
     fetchAppointments();
   }, [userData?._id]);
-  // console.log(userIn);
-  const date = moment(appointment?.date).format("MM/DD/YYYY");
-  const time = moment(appointment?.date).format("h:mm:ss a");
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed

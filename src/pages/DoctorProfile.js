@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Form, Input, Button, Row, TimePicker } from "antd";
 import Layout from "../components/Layout";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { hideLoading, showLoading } from "../redux/alertSlice";
@@ -21,7 +21,6 @@ const fetchUserData = async (id) => {
 const DoctorProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { user } = useSelector((state) => state.user);
   const [singleDoctor, setDoctor] = useState([]);
   const userInfo = localStorage.getItem("user");
   const userIn = userInfo ? JSON.parse(userInfo) : null;

@@ -3,7 +3,6 @@ import Layout from "../components/Layout";
 import { Form, Input, Button, Row, Col } from "antd";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { hideLoading, showLoading } from "../redux/alertSlice";
 import toast from "react-hot-toast";
 
@@ -18,7 +17,6 @@ const fetchUserData = async (id) => {
 };
 const AdminProfile = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [user, setUsers] = useState([]);
   const userInfo = localStorage.getItem("user");
   const userIn = userInfo ? JSON.parse(userInfo) : null;
@@ -35,8 +33,7 @@ const AdminProfile = () => {
 
     getDoctorUserData();
   }, []);
-  const { users, doctor } = user;
-  //   console.log(users)
+  const { users} = user;
   const onFinish = async (values) => {
     dispatch(showLoading());
     try {

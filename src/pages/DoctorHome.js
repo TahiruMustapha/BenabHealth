@@ -1,11 +1,12 @@
+
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import appointmentData from "../chartData/appointmentData.json";
-import { Bar, Doughnut, Line, PolarArea } from "react-chartjs-2";
-import Chart, { Legend, plugins } from "chart.js/auto";
+import { Line } from "react-chartjs-2";
+// import { plugins } from "chart.js/auto";
+import Chart from 'chart.js/auto';
 import { GrTemplate } from "react-icons/gr";
 import app1 from "../images/app1.jpg";
 import app2 from "../images/app2.jpg";
@@ -128,7 +129,6 @@ const DoctorHome = () => {
     };
     return `${day}${daySuffix(day)} , ${month} ${year}`;
   };
-  // console.log(users);
   const getCurrentDateTime = function () {
     const now = new Date();
 
@@ -171,23 +171,9 @@ const DoctorHome = () => {
     const minutes = now.getMinutes().toString().padStart(2, "0");
     const seconds = now.getSeconds().toString().padStart(2, "0");
     // Determine AM or PM
-    const ampm = hours >= 12 ? "PM" : "AM";
-
     hours = hours % 12 || 12;
 
     hours = hours.toString().padStart(2, "0");
-
-    //greetings
-    let greetings;
-    if (ampm === "AM" && hours < 12) {
-      greetings = "Good Morning!";
-    }else if(ampm === "PM" && hours < 6){
-      greetings = "Good Afternoon!";
-    }else if(ampm === "PM" && hours < 9){
-      greetings = "Good Evening!";
-    }else {
-      greetings = "Good Night!";
-    }
     //Format the date in words
     const formattedDate = `${dayOfweek}, ${month} ${day}, ${year}`;
 
@@ -218,6 +204,27 @@ const DoctorHome = () => {
       data: 40,
     },
   ];
+ function greetUser() {
+    const now = new Date();
+    let hour = now.getHours();
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+
+    // Convert to 12-hour format
+    hour = hour % 12;
+    hour = hour ? hour : 12; // If hour equals 0, set it to 12 (midnight or noon)
+    let greeting;
+    if (hour < 12 && ampm === 'AM') {
+        greeting = "Good morning!";
+    } else if (hour < 3 && ampm === 'PM') {
+        greeting = "Good afternoon!";
+    } else if (hour < 10 && ampm === 'PM') {
+        greeting = "Good evening!";
+    } else {
+        greeting = "Good night!";
+    }
+
+    return greeting;
+}
   return (
     <Layout>
       <h2 className=" text-2xl px-6 text-gray-500 mb-4 font-semibold">
@@ -226,7 +233,7 @@ const DoctorHome = () => {
       <div className=" flex items-center gap-3 px-6 mb-5">
         <div className=" px-4 py-3 rounded-md border-gray-100 border-[1px] w-[50%] shadow-md">
           <div className=" flex items-center justify-between">
-            <p className=" font-semibold text-3xl capitalize">Good Morning</p>
+            <p className=" font-semibold text-3xl capitalize">{greetUser()}</p>
             <p className="text-gray-500 text-sm">{getCurrentDateTime()}</p>
           </div>
 

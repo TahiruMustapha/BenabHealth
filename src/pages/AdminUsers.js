@@ -4,11 +4,8 @@ import { FaUserDoctor } from "react-icons/fa6";
 import axios from "axios";
 import ActionBtns from "../components/ActionBtns";
 import { HiDotsVertical } from "react-icons/hi";
-import { ComfirmDeleteUser } from "../components/ComfirmDeleteUser";
-
+import { Select } from "antd";
 const AdminUsers = () => {
- 
-
   const [users, setUsers] = useState([]);
   const [openActionId, setOpenActionId] = useState(null); // Track the ID of the open action menu
   const actionRefs = useRef({});
@@ -22,10 +19,6 @@ const AdminUsers = () => {
   };
   useEffect(() => {
     fetchUsers();
-    // axios
-    //   .get("/api/user/get-user-info")
-    //   .then((user) => setUsers(user.data))
-    //   .catch((err) => console.log(err));
   }, []);
   useEffect(() => {
     const handler = (e) => {
@@ -92,7 +85,12 @@ const AdminUsers = () => {
                   <td className=" px-6 py-4">{user.email}</td>
                   <td className=" px-6 py-4">
                     {(user.isAdmin && "Admin") ||
-                      (user.isDoctor && "Doctor") ||
+                      (user.isDoctor && (<Select className=" hover:outline-none hover:bottom-0 "
+                        defaultValue="Doctor"
+                        // style={{ width: 100}}
+                       
+                        options={[{ value: 'user', label: 'User' }]}
+                      />)) ||
                       (!user?.isAdmin && !user?.isDoctor && "User")}
                   </td>
 

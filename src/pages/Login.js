@@ -1,6 +1,5 @@
 import React from "react";
-// import { FaAsterisk } from "react-icons/fa";
-import { Link, useNavigate, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button } from "antd";
 import axios from "axios";
 import toast from "react-hot-toast";

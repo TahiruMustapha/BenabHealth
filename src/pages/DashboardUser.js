@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import appointmentData from "../chartData/appointmentData.json";
-import { Bar, Doughnut, Line, PolarArea } from "react-chartjs-2";
-import Chart from "chart.js/auto";
+import {Line} from "react-chartjs-2";
+
 import { GrTemplate } from "react-icons/gr";
 import app1 from "../images/app1.jpg";
 import app2 from "../images/app2.jpg";
@@ -30,16 +29,6 @@ const fetchUserData = async (id) => {
     console.log("Cannot get user data!", error);
   }
 };
-
-const fetchDoctorAppointment = async (id) => {
-  try {
-    const response = await axios.get(`/api/user/doctor-appointments/${id}`);
-    return response.data;
-  } catch (error) {
-    console.log("Cannot get doctor appointments!", error);
-  }
-};
-
 const DashboardUser = () => {
   const navigate = useNavigate();
   const patientReview = [

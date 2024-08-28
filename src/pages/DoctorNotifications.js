@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { Tabs } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -19,7 +19,6 @@ const fetchUserData = async (id) => {
 
 const DoctorNotification = () => {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [doctorUserData, setDoctorUserData] = useState({});
   const userInfo = localStorage.getItem("user");

@@ -53,9 +53,6 @@ const ComfirmDeleteUser = ({
       handlDeleteUser(userId);
     }
   };
-//   const closeActionMenu = () => {
-//     closeMenu();
-//   };
   return (
     <div
       ref={modalRef}
