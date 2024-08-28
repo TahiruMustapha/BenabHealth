@@ -51,14 +51,6 @@ const DoctorAppointments = () => {
   };
   fetchAppointments();
   useEffect(() => {
-    // const fetchAppointments = async () => {
-    //   try {
-    //     const doctorAppointment = await fetchDoctorAppointment(doctor?._id);
-    //     setAppointment(doctorAppointment);
-    //   } catch (error) {
-    //     console.log("Error fetching appointments!", error);
-    //   }
-    // };
     fetchAppointments();
   }, []);
   const formatDate = (dateString) => {

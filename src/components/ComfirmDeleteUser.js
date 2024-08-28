@@ -36,7 +36,6 @@ const ComfirmDeleteUser = ({
   };
   const handlDeleteDoctor = async (id) => {
     try {
-      setOpenActionId(null);
       dispatch(showLoading());
       const response = await axios.delete(`/api/user/delete-doctor/${id}`);
       if (!response) {
