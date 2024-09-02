@@ -16,8 +16,6 @@ const Login = () => {
       const response = await axios.post("api/user/login", values);
       dispatch(hideLoading());
       const { user } = response.data;
-      // console.log(user);
-
       if (response.data.success) {
         toast.success(response.data.message);
         localStorage.setItem("token", response.data.data);
