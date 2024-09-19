@@ -55,6 +55,6 @@
     "ajv": "^7.2.4",
     "tailwindcss": "^3.4.4"
   },
-  "proxy": "http://localhost:8000/"
+  "proxy": "https://benabhealthbackend.onrender.com"
   
 }
