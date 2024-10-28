@@ -11,7 +11,7 @@ const Login = () => {
   const onFinish = async (values) => {
     try {
       dispatch(showLoading());
-      const response = await axios.post(`${process.env.BENAB_URL}/api/user/login`, values);
+      const response = await axios.post(`/api/user/login`, values);
       dispatch(hideLoading());
       const { user } = response.data;
       if (response.data.success) {
@@ -20,7 +20,7 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(user));  
         setTimeout(() => {
           if (user?.isDoctor) {
-            navigate(`/doctor-home`);
+            navigate(`/doctor-home`); 
           } else if (user?.isAdmin) {
             navigate(`/admin-dashboard`);
           } else if (!user?.isAdmin && !user?.isDoctor) {
