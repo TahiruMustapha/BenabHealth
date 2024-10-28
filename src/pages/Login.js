@@ -9,10 +9,9 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinish = async (values) => {
-    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
     try {
       dispatch(showLoading());
-      const response = await axios.post(`${API_BASE_URL}/api/user/login`, values);
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/login`, values);
       dispatch(hideLoading());
       const { user } = response.data;
       if (response.data.success) {

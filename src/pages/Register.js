@@ -10,10 +10,9 @@ const Register = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const onFinish = async (values) => {
-    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
     try {
       dispatch(showLoading());
-      const response = await axios.post(`${API_BASE_URL}/api/user/register`, values);
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/register`, values);
       dispatch(hideLoading());
       if (response.data.success) {
         toast.success(response.data.message);

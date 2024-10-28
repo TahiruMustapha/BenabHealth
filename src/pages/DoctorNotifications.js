@@ -10,7 +10,7 @@ import { setUser } from "../redux/userSlice";
 
 const fetchUserData = async (id) => {
   try {
-    const response = await axios.get(`/api/user/get-user/${id}`);
+    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/get-user/${id}`);
     return response.data;
   } catch (error) {
     console.log("Cannot get user data!", error);
@@ -41,7 +41,7 @@ const DoctorNotification = () => {
     try {
       dispatch(showLoading());
       const response = await axios.post(
-        "api/user/mark-all-doctor-notifications-as-seen",
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/mark-all-doctor-notifications-as-seen`,
         { doctorId: doctor?._id },
         {
           headers: {
@@ -67,7 +67,7 @@ const DoctorNotification = () => {
     try {
       dispatch(showLoading());
       const response = await axios.post(
-        "api/user/delete-all-doctor-notifications",
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/delete-all-doctor-notifications`,
         { doctorId: doctor._id },
         {
           headers: {

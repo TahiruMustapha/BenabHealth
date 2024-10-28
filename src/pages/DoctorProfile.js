@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 const fetchUserData = async (id) => {
   try {
-    const response = await axios.get(`/api/user/get-user/${id}`);
+    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/get-user/${id}`);
 
     return response.data;
   } catch (error) {
@@ -52,7 +52,7 @@ const DoctorProfile = () => {
           : null,
       };
       const response = await axios.put(
-        `/api/user/doctor-profile/${doctor?._id}`,
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/doctor-profile/${doctor?._id}`,
         data
       );
       dispatch(hideLoading());

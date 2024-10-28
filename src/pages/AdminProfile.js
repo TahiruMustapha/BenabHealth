@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 
 const fetchUserData = async (id) => {
   try {
-    const response = await axios.get(`/api/user/get-user/${id}`);
+    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/get-user/${id}`);
 
     return response.data;
   } catch (error) {
@@ -38,7 +38,7 @@ const AdminProfile = () => {
     dispatch(showLoading());
     try {
       const response = await axios.put(
-        `/api/user/user-profile/${userIn?._id}`,
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/user-profile/${userIn?._id}`,
         values
       );
       dispatch(hideLoading());

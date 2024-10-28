@@ -27,7 +27,7 @@ const ActionBtns = ({
   const handlApproveApplyDoctorAccount = async (id) => {
     try {
       dispatch(showLoading());
-      const response = await axios.put(`/api/user/doctors/${id}/approve`);
+      const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/user/doctors/${id}/approve`);
       if (!response) {
         toast.error("Unable to approve doctor!");
       }
@@ -41,7 +41,7 @@ const ActionBtns = ({
   const handlApproveAppointments = async (id) => {
     try {
       dispatch(showLoading());
-      const response = await axios.put(`/api/user/approve-appointments/${id}`);
+      const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/user/approve-appointments/${id}`);
       if (!response) {
         toast.error("Unable to approve user appointment!");
       }
@@ -62,7 +62,7 @@ const ActionBtns = ({
   const handleRejectAppointment = async (id) => {
     try {
       dispatch(showLoading());
-      const response = await axios.put(`/api/user/appointment/${id}/reject`);
+      const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/user/appointment/${id}/reject`);
       if (!response) {
         toast.error("Unable to reject appointment!");
       }

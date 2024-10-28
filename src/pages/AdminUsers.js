@@ -11,7 +11,7 @@ const AdminUsers = () => {
   const actionRefs = useRef({});
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("/api/user/get-user-info");
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/get-user-info`);
       setUsers(response.data);
     } catch (error) {
       console.log(error);

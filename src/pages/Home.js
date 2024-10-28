@@ -7,7 +7,7 @@ const Home = () => {
   useEffect(() => {
     const fetchApprovedDoctors = async () => {
       try {
-        const response = await axios.get("/api/user/approved-doctors");
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/approved-doctors`);
         setApprovedDoctors(response.data);
       } catch (error) {
         console.log("Error fetching approved doctors!", error);

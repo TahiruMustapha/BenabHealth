@@ -21,7 +21,7 @@ const ComfirmDeleteUser = ({
   const handlDeleteUser = async (id) => {
     try {
       dispatch(showLoading());
-      const response = await axios.delete(`/api/user/delete-user/${id}`);
+      const response = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/user/delete-user/${id}`);
       if (!response) {
         toast.error("Unable to delete user!");
       }
@@ -35,7 +35,7 @@ const ComfirmDeleteUser = ({
   const handlDeleteDoctor = async (id) => {
     try {
       dispatch(showLoading());
-      const response = await axios.delete(`/api/user/delete-doctor/${id}`);
+      const response = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/user/delete-doctor/${id}`);
       if (!response) {
         toast.error("Unable to delete doctor!");
       }

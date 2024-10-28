@@ -23,7 +23,7 @@ import { FaUserDoctor } from "react-icons/fa6";
 
 const fetchUserData = async (id) => {
   try {
-    const response = await axios.get(`/api/user/get-user/${id}`);
+    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/get-user/${id}`);
     return response.data;
   } catch (error) {
     console.log("Cannot get user data!", error);
@@ -93,7 +93,7 @@ const DashboardUser = () => {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(
-          `/api/user/user-appointments/${userIn?._id}`
+          `${process.env.REACT_APP_API_BASE_URL}/api/user/user-appointments/${userIn?._id}`
         );
         setAppointment(response.data);
       } catch (error) {
@@ -108,7 +108,7 @@ const DashboardUser = () => {
   useEffect(() => {
     const fetchApprovedDoctors = async () => {
       try {
-        const response = await axios.get("/api/user/approved-doctors");
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/approved-doctors`);
         setApprovedDoctors(response.data);
       } catch (error) {
         console.log("Error fetching approved doctors!", error);

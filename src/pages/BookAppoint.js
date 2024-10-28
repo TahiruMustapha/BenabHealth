@@ -19,7 +19,7 @@ const BookAppoint = () => {
   useEffect(() => {
     const getDoctor = async () => {
       try {
-        const response = await axios.get(`/api/user/doctors-home/${id}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/doctors-home/${id}`);
         setDoctor(response.data);
       } catch (error) {
         console.log("Error fetching doctor", error);
@@ -66,7 +66,7 @@ const BookAppoint = () => {
         "YYYY-MM-DD HH:mm:ss"
       );
       const response = await axios.post(
-        `/api/user/doctors/${_id}/check-availability`,
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/doctors/${_id}/check-availability`,
         {
           startTime: startDateTime,
           endTime: endDateTime,
@@ -96,7 +96,7 @@ const BookAppoint = () => {
     };
     dispatch(showLoading());
     try {
-      const response = await axios.post("/api/user/appointments", payload);
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/appointments`, payload);
 
       dispatch(hideLoading());
       if (!response) {

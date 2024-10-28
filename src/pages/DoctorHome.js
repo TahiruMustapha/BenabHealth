@@ -24,7 +24,7 @@ import { MdOutlineAttachEmail } from "react-icons/md";
 
 const fetchUserData = async (id) => {
   try {
-    const response = await axios.get(`/api/user/get-user/${id}`);
+    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/get-user/${id}`);
     return response.data;
   } catch (error) {
     console.log("Cannot get user data!", error);
@@ -33,7 +33,7 @@ const fetchUserData = async (id) => {
 
 const fetchDoctorAppointment = async (id) => {
   try {
-    const response = await axios.get(`/api/user/doctor-appointments/${id}`);
+    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/doctor-appointments/${id}`);
     return response.data;
   } catch (error) {
     console.log("Cannot get doctor appointments!", error);

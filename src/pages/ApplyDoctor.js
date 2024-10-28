@@ -15,7 +15,7 @@ function ApplyDoctor() {
     try {
       dispatch(showLoading());
       const response = await axios.post(
-        "api/user/apply-doctor-account",
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/apply-doctor-account`,
         {
           ...values,
           userid: user._id,

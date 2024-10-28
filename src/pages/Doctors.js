@@ -8,7 +8,7 @@ import ActionBtns from "../components/ActionBtns";
 const Doctors = () => {
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get("/api/user/get-doctor-info");
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/get-doctor-info`);
       setDoctors(response.data);
     } catch (error) {
       console.log(error);
@@ -20,17 +20,14 @@ const Doctors = () => {
 
   useEffect(() => {
     fetchDoctors();
-    // axios
-    //   .get("/api/user/get-doctor-info")
-    //   .then((doctors) => setDoctors(doctors.data))
-    //   .catch((err) => console.log(err));
+   
   }, []);
 
   useEffect(() => {
     const handler = (e) => {
       Object.values(actionRefs.current).forEach((ref) => {
         if (ref && !ref.contains(e.target)) {
-          setOpenActionId(null); // Close the menu if clicked outside
+          setOpenActionId(null); 
         }
       });
     };
@@ -42,7 +39,7 @@ const Doctors = () => {
   }, []);
 
   const showActions = (id) => {
-    setOpenActionId((prevId) => (prevId === id ? null : id)); // Toggle the menu for the clicked row
+    setOpenActionId((prevId) => (prevId === id ? null : id)); 
   };
 
   return (

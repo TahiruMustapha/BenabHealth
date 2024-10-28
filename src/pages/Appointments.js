@@ -10,12 +10,11 @@ const Appointments = () => {
     setUserData(userInfo);
   }, []);
   console.log(userData._id);
-  let id = "668b0a7c6702780b8f30df12";
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(
-          `/api/user/user-appointments/${userData?._id}`
+          `${process.env.REACT_APP_API_BASE_URL}/api/user/user-appointments/${userData?._id}`
         );
         setAppointment(response.data);
       } catch (error) {
