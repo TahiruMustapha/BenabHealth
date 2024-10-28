@@ -11,7 +11,7 @@ const Login = () => {
   const onFinish = async (values) => {
     try {
       dispatch(showLoading());
-      const response = await axios.post(`${process.env.BASE_URL}/api/user/login`, values);
+      const response = await axios.post(`${process.env.BENAB_URL}/api/user/login`, values);
       dispatch(hideLoading());
       const { user } = response.data;
       if (response.data.success) {
