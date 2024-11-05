@@ -1,10 +1,8 @@
 import React from "react";
 import { FaInstagram } from "react-icons/fa";
 import { CiFacebook } from "react-icons/ci";
-import doc2 from "../images/doc2.webp";
-import doc3 from "../images/doc3.jpg";
+import med3 from "../images/med3.png"
 import { Link, useNavigate } from "react-router-dom";
-
 const Benab = () => {
   const navigate = useNavigate();
   return (
@@ -27,8 +25,8 @@ const Benab = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-[6rem] flex gap-4">
-          <div>
+        <div className=" mt-5  w-full flex gap-3 items-center ">
+          <div className=" flex-1">
             <h1 className="text-5xl font-bold tracking-wide">
               We work every <br /> day to improve <br />{" "}
               <span className="text-[#050C9C]">your quality of life.</span>{" "}
@@ -41,7 +39,7 @@ const Benab = () => {
               SCHEDULE A TURN
             </button>
           </div>
-          <div className="relative  h-[25rem]   w-[60%]">
+          {/* <div className="relative  h-[25rem]   w-[60%]">
             <img
               src={doc3}
               alt="doctor-img"
@@ -76,7 +74,12 @@ const Benab = () => {
             <div className="absolute top-[7rem] left-[11rem] rounded-tl-[4rem] bg-gradient-to-r from-gray-300 from 30% via-transparent to-[#050d9c] w-[7rem] h-[8rem]"></div>
             <div className="absolute top-[.5rem]  left-[23rem] rounded-tl-[4rem] bg-gradient-to-b from-gray-300 from 30% via-transparent to-[#050d9c] w-[7rem] h-[5rem]"></div>
             <div className="absolute top-[8.5rem] right-[9.5rem] rounded-tr-[0] rounded-br-[4rem] bg-gradient-to-r from-[#050d9c] from 30% via-transparent to-gray-300 w-[7rem] h-[7rem]"></div>
-          </div>
+          </div> */}
+           
+           <img src={med3} alt="doctor-img" className="w-[50%]"   />
+          
+            
+          
         </div>
       </div>
     </div>
