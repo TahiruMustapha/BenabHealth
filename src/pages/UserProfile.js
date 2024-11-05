@@ -56,7 +56,7 @@ const UserProfile = () => {
     form.setFieldsValue(users);
   return (
     <Layout>
-      <h1 className=" text-gray-500 mt-2 font-semibold    ">
+      <h1 className=" text-center md:text-left text-gray-500 mt-2 font-semibold    ">
         User Infomation
       </h1>
       <Form
@@ -64,7 +64,7 @@ const UserProfile = () => {
         onFinish={onFinish}
         layout="vertical"
         //   onFinish={onFinish}
-        className=" w-[50%] flex  flex-col mx-auto  justify-center h-[fit] mt-7"
+        className=" md:w-[50%] flex  flex-col mx-auto  justify-center h-[fit] mt-7"
       >
         <Row gutter={30}>
           <Col span={8} xs={24} sm={24} lg={12}>

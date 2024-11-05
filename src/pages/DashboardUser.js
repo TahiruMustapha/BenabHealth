@@ -140,13 +140,13 @@ const DashboardUser = () => {
   };
   return (
     <Layout>
-      <h2 className=" text-2xl px-6 text-gray-500 mb-4 font-semibold">
+      <h2 className=" text-center md:text-left text-2xl px-6 text-gray-500 mb-4 font-semibold">
         User Dashboard
       </h2>
-      <div className=" w-full flex items-center justify-center gap-4 mb-5">
-        <div className=" w-[23%] shadow-md px-3 py-3 rounded-md">
+      <div className=" w-full   flex flex-col md:flex-row md:items-center justify-center gap-4 mb-5">
+        <div className=" md:w-[23%] shadow-md px-3 py-3 rounded-md">
           <div className=" w-full flex items-center justify-between">
-            <h3 className=" font-medium">Appointments</h3>
+            <h3 className=" font-medium">Appoints</h3>
             <p className=" border-gray-200 border-[1px] text-xs bg-blue-50 text-blue-700 font-semibold px-2 py-[0.10rem] rounded-2xl">
               +15%
             </p>
@@ -167,7 +167,7 @@ const DashboardUser = () => {
             }}
           />
         </div>
-        <div className=" w-[23%] shadow-md px-3 py-3 rounded-md">
+        <div className=" md:w-[23%] shadow-md px-3 py-3 rounded-md">
           <div className=" w-full flex items-center justify-between">
             <h3 className=" font-medium">Patients</h3>
             <p className=" border-gray-200 border-[1px] text-xs bg-green-100 text-green-700 font-semibold px-2 py-[0.10rem] rounded-2xl">
@@ -192,7 +192,7 @@ const DashboardUser = () => {
             }}
           />
         </div>
-        <div className=" w-[23%] shadow-md px-3 py-3 rounded-md">
+        <div className=" md:w-[23%] shadow-md px-3 py-3 rounded-md">
           <div className=" w-full flex items-center justify-between">
             <h3 className=" font-medium">Approved</h3>
             <p className=" border-gray-200 border-[1px] text-xs bg-orange-100 text-orange-700 font-semibold px-2 py-[0.10rem] rounded-2xl">
@@ -217,7 +217,7 @@ const DashboardUser = () => {
             }}
           />
         </div>
-        <div className=" w-[23%] shadow-md px-3 py-3 rounded-md">
+        <div className=" md:w-[23%] shadow-md px-3 py-3 rounded-md">
           <div className=" w-full flex items-center justify-between">
             <h3 className=" font-medium">Canceled</h3>
             <p className=" border-gray-200 border-[1px] text-xs bg-[#00214d1e] text-[#00224D] font-semibold px-2 py-[0.10rem] rounded-2xl">
@@ -243,8 +243,8 @@ const DashboardUser = () => {
           />
         </div>
       </div>
-      <div className=" w-full flex items-center px-0 justify-center  gap-3">
-        <div className=" w-[31.4%] rounded-md  border-gray-200 border-[1px]">
+      <div className=" w-full flex flex-col md:flex-row items-center px-0 justify-center  gap-3">
+        <div className=" md:w-[31.4%] rounded-md  border-gray-200 border-[1px]">
           <div className=" flex items-center justify-between px-2 py-6">
             <h3 className=" font-semibold flex items-center gap-2 ">
               {" "}
@@ -300,7 +300,7 @@ const DashboardUser = () => {
             )}
           </div>
         </div>
-        <div className=" w-[31.4%] rounded-md  border-gray-200 border-[1px]">
+        <div className=" md:w-[31.4%] rounded-md  border-gray-200 border-[1px]">
           <div className=" flex items-center justify-between px-2 py-6">
             <h3 className=" font-semibold flex items-center gap-2 ">
               {" "}
@@ -354,7 +354,7 @@ const DashboardUser = () => {
             )}
           </div>
         </div>
-        <div className=" w-[31.4%]  rounded-md  border-gray-200 border-[1px]">
+        <div className=" w-[100%] md:w-[31.4%]  rounded-md  border-gray-200 border-[1px]">
           <div className=" flex items-center justify-between px-2 py-6">
             <h3 className=" font-semibold flex items-center gap-2 ">
               {" "}
@@ -362,9 +362,9 @@ const DashboardUser = () => {
             </h3>
           </div>
           <hr />
-          <div className=" w-full">
+          <div className=" py-3 md:py-1  w-full">
             {patientReview && (
-              <div className="">
+              <div className=" overflow-x-hidden">
                 <Swiper
                   centeredSlides={true}
                   autoplay={{
@@ -378,12 +378,12 @@ const DashboardUser = () => {
                   className=" w-[24rem]"
                 >
                   {patientReview.map((appointment) => (
-                    <SwiperSlide className=" flex items-center justify-center pb-3  text-center ">
-                      <p className="  text-sm text-gray-400 px-2">
+                    <SwiperSlide className=" w-full   flex items-center justify-start md:justify-center    ">
+                      <p className=" w-[89%]   text-sm   text-gray-400 px-2 md:px-3 text-left ">
                         "{appointment.review}"
                       </p>
 
-                      <div className="mt-3  mb-2 flex items-center px-2 gap-4">
+                      <div className="w-[89%] mt-1    mb-6 flex items-center px-2 gap-4">
                         <img
                           src={appointment.image}
                           alt="patientImg"
@@ -426,8 +426,8 @@ const DashboardUser = () => {
           </div>
         </div>
       </div>
-      <div className=" mt-8 px-6 flex items-center justify-center gap-3">
-        <div className=" border-gray-200 flex items-center justify-center flex-col rounded-md px-4 py-5 border-[1px]">
+      <div className=" w-full mt-8 md:px-6   flex flex-col md:flex-row  items-center justify-center gap-4">
+        <div className=" md:w-[15.5rem]  border-gray-200   flex items-center justify-center flex-col rounded-md px-4 py-5 border-[1px]">
           <p className=" w-14 h-14 rounded-full bg-blue-100 mb-2 flex items-center justify-center">
             <FaTelegramPlane className=" text-xl text-blue-600" />
           </p>
@@ -449,13 +449,17 @@ const DashboardUser = () => {
               ))}
             </p>
           ) : (
-            <p className=" text-center text-gray-400">
-              {" "}
+            <div className="  w-full">
+              <p className=" text-center text-gray-400">
               Due to its wide spread use as filler text
             </p>
+             <p className=" flex items-center justify-center cursor-pointer gap-2 text-blue-600 text-sm font-semibold">
+             Read More <IoMdArrowForward />
+           </p>
+            </div>
           )}
         </div>
-        <div className=" border-gray-200 flex items-center flex-col rounded-md px-4 py-5 border-[1px]">
+        <div className=" md:w-[15.5rem]  border-gray-200 flex items-center flex-col rounded-md px-4 py-5 border-[1px]">
           <p className=" w-14 h-14 rounded-full bg-blue-100 mb-2 flex items-center justify-center">
             <MdOutlineAttachEmail className=" text-xl text-blue-600" />
           </p>
@@ -477,15 +481,21 @@ const DashboardUser = () => {
               ))}
             </p>
           ) : (
-            <p className=" text-center text-gray-400">
+            <div className="  w-full">
+              <p className=" text-center text-gray-400">
               Due to its wide spread use as filler text
             </p>
+             <p className=" flex items-center justify-center cursor-pointer gap-2 text-blue-600 text-sm font-semibold">
+             Read More <IoMdArrowForward />
+           </p>
+            </div>
+            
           )}
           {/* <p className=" flex items-center cursor-pointer gap-2 text-blue-600 text-sm font-semibold">
             Read More <IoMdArrowForward />
           </p> */}
         </div>
-        <div className=" border-gray-200 flex items-center flex-col rounded-md px-4 py-5 border-[1px]">
+        <div className=" md:w-[15.5rem]  border-gray-200 flex items-center flex-col rounded-md px-4 py-5 border-[1px]">
           <p className=" w-14 h-14 rounded-full bg-blue-100 mb-2 flex items-center justify-center">
             <GiSandsOfTime className=" text-xl text-blue-600" />
           </p>
@@ -498,7 +508,7 @@ const DashboardUser = () => {
             Read More <IoMdArrowForward />
           </p>
         </div>
-        <div className=" border-gray-200 flex items-center flex-col rounded-md px-4 py-5 border-[1px]">
+        <div className="md:w-[15.5rem] border-gray-200 flex items-center flex-col rounded-md px-4 py-5 border-[1px]">
           <p className=" w-14 h-14 rounded-full bg-blue-100 mb-2 flex items-center justify-center">
             <FaRegHeart className=" text-xl text-blue-600" />
           </p>

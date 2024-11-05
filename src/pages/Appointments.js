@@ -37,75 +37,66 @@ const Appointments = () => {
   return (
     <Layout>
       <div>
-        <h1 className=" text-xl text-gray-500 font-semibold pb-2 mt-2 px-2">
+        <h1 className=" text-center md:text-left text-xl text-gray-500 font-semibold pb-2 mt-2 px-2">
           Appointments
         </h1>
         <hr className=" " />
       </div>
-      <table className=" w-full mt-4 text-left rtl:text-right ">
-        <thead className=" bg-gray-100 text-sm text-gray-600 uppercase ">
-          <tr className=" ">
-            <th scope="col" className="px-6 py-3">
-              id
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Doctor
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Phone
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Date & Time
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Status
-            </th>
+      <div className="w-full overflow-x-auto mt-4">
+  <table className="w-full text-left rtl:text-right table-auto">
+    <thead className="bg-gray-100 text-sm text-gray-600 uppercase">
+      <tr>
+        <th scope="col" className="px-6 py-3">ID</th>
+        <th scope="col" className="px-6 py-3">Doctor</th>
+        <th scope="col" className="px-6 py-3">Phone</th>
+        <th scope="col" className="px-6 py-3">Date & Time</th>
+        <th scope="col" className="px-6 py-3">Status</th>
+      </tr>
+    </thead>
+    {appointment?.length >= 0 ? (
+      <tbody>
+        {appointment.map((userAppointment) => (
+          <tr key={userAppointment._id} className="border-b">
+            <td className="px-6 py-4 whitespace-nowrap">{userAppointment._id}</td>
+            <td className="px-6 py-4 whitespace-nowrap">
+              {userAppointment.doctor?.firstName} {userAppointment.doctor?.lastName}
+            </td>
+            <td className="px-6 py-4 whitespace-nowrap">
+              {userAppointment.doctor?.phoneNumber}
+            </td>
+            <td className="px-6 py-4 whitespace-nowrap">
+              {formatDate(userAppointment.date)}{" "}
+              <span>
+                {userAppointment.time.map((time, index) => (
+                  <span key={index}> {formatTime(time)}</span>
+                ))}
+              </span>
+            </td>
+            <td className="px-6 py-4">
+              <p className="flex gap-1 text-gray-500 text-xs">
+                <span
+                  className={`${
+                    userAppointment.status === "Approved"
+                      ? `bg-green-100 text-green-700 px-1 py-[0.10rem] rounded-md`
+                      : `bg-orange-100 text-orange-700 px-1 py-[0.10rem] rounded-md`
+                  }`}
+                >
+                  {userAppointment.status}
+                </span>
+              </p>
+            </td>
           </tr>
-        </thead>
-        {appointment?.length >= 0 ? (
-          <tbody>
-            {appointment.map((userAppointment) => (
-              <tr key={userAppointment._id}>
-                <td className=" px-6 py-4">{userAppointment._id}</td>
-                <td className=" px-6 py-4">
-                  {userAppointment.doctor?.firstName}{" "}
-                  {userAppointment.doctor?.lastName}
-                </td>
-                <td className=" px-6 py-4">
-                  {userAppointment.doctor?.phoneNumber}
-                </td>
-                <td className=" px-6 py-4">
-                  {" "}
-                  {formatDate(userAppointment.date)}{" "}
-                  <span>
-                    {userAppointment.time.map((time, index) => (
-                      <span key={index}> {formatTime(time)}</span>
-                    ))}
-                  </span>
-                </td>
-                <td className=" px-6 py-4">
-                <p className=" flex gap-1 text-gray-500 text-xs">
-                  <span
-                    className={`${
-                      userAppointment.status === "Approved"
-                        ? `  bg-green-100 text-green-700  px-1 py-[0.10rem] rounded-md`
-                        : `bg-orange-100 text-orange-700  px-1 py-[0.10rem] rounded-md`
-                    }`}
-                  >
-                    {userAppointment.status}
-                  </span>
-                </p>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        ) : (
-          <div className=" w-full flex flex-col items-center mt-10 justify-center">
-            <GoDatabase className=" text-3xl text-gray-400" />
-            <p className=" text-gray-400 text-sm">No Appointment</p>
-          </div>
-        )}
-      </table>
+        ))}
+      </tbody>
+    ) : (
+      <div className="w-full flex flex-col items-center mt-10 justify-center">
+        <GoDatabase className="text-3xl text-gray-400" />
+        <p className="text-gray-400 text-sm">No Appointment</p>
+      </div>
+    )}
+  </table>
+</div>
+
     </Layout>
   );
 };

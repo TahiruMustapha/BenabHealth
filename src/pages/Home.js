@@ -23,7 +23,7 @@ const Home = () => {
           Approved Doctors
         </h2>
         <hr />
-        <div className=" mt-4 w-full flex gap-3 flex-wrap">
+        <div className="  mt-4 w-full flex gap-3 flex-wrap">
           {approvedDoctors.map((approvedDoctor) => {
             const { timings } = approvedDoctor;
             function convertTo12HourTime(dateString) {
@@ -43,7 +43,7 @@ const Home = () => {
             return (
               <Link
                 to={`/book-appointment/${approvedDoctor._id}`}
-                className="w-[30%]  rounded-md shadow-md border-gray-300 border-[1px] px-2 py-3 "
+                className=" w-[100%] md:w-[30%]  rounded-md shadow-md border-gray-300 border-[1px] px-2 py-3 "
                 key={approvedDoctor._id}
               >
                 <p className=" uppercase border-b-gray-400 border-b-[1px]">

@@ -7,12 +7,12 @@ const Benab = () => {
   const navigate = useNavigate();
   return (
     <div className="w-full h-full ">
-      <div className="px-32 py-10">
-        <div className="flex items-center justify-between">
-          <h2 className="bg-[#050C9C] w-[6rem] h-[6rem] rounded-full flex items-center justify-center text-white font-extrabold text-5xl">
+      <div className=" px-5 md:px-32 py-10">
+        <div className=" flex items-center justify-between">
+          <h2 className="bg-[#050C9C] w-[3rem] md:w-[6rem] h-[3rem] md:h-[6rem] rounded-full flex items-center justify-center text-white font-extrabold text-xl md:text-5xl">
             BH
           </h2>
-          <div className="flex items-center gap-3">
+          <div className=" hidden md:flex items-center gap-3">
             <FaInstagram className="text-2xl text-[#050C9C]" />
             <CiFacebook className="text-2xl text-[#050C9C]" />
           </div>
@@ -25,16 +25,16 @@ const Benab = () => {
             </Link>
           </div>
         </div>
-        <div className=" mt-5  w-full flex gap-3 items-center ">
+        <div className=" mt-10 md:mt-5   w-full flex gap-3 items-center ">
           <div className=" flex-1">
-            <h1 className="text-5xl font-bold tracking-wide">
+            <h1 className=" text-5xl md:text-5xl  font-bold tracking-wide">
               We work every <br /> day to improve <br />{" "}
               <span className="text-[#050C9C]">your quality of life.</span>{" "}
             </h1>
             <hr className="w-[60px] h-[7px] rounded-md bg-[#050C9C] mt-6" />
             <button
               onClick={() => navigate("/login")}
-              className="bg-[#050C9C] px-6 py-1 text-sm tracking-wide text-white mt-16 rounded-md"
+              className="bg-[#050C9C] px-6 py-1  text-sm tracking-wide text-white mt-16 rounded-md"
             >
               SCHEDULE A TURN
             </button>
@@ -74,12 +74,8 @@ const Benab = () => {
             <div className="absolute top-[7rem] left-[11rem] rounded-tl-[4rem] bg-gradient-to-r from-gray-300 from 30% via-transparent to-[#050d9c] w-[7rem] h-[8rem]"></div>
             <div className="absolute top-[.5rem]  left-[23rem] rounded-tl-[4rem] bg-gradient-to-b from-gray-300 from 30% via-transparent to-[#050d9c] w-[7rem] h-[5rem]"></div>
             <div className="absolute top-[8.5rem] right-[9.5rem] rounded-tr-[0] rounded-br-[4rem] bg-gradient-to-r from-[#050d9c] from 30% via-transparent to-gray-300 w-[7rem] h-[7rem]"></div>
-          </div> */}
-           
-           <img src={med3} alt="doctor-img" className="w-[50%]"   />
-          
-            
-          
+          </div> */}  
+           <img src={med3} alt="doctor-img" className=" hidden md:flex w-[50%]"   />
         </div>
       </div>
     </div>

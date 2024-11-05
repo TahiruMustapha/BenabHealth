@@ -77,12 +77,12 @@
 }
 .menu-item a {
   color: rgba(255, 255, 255, 0.795);
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .menu-item span {
   color: rgba(255, 255, 255, 0.795);
-  font-size: 25px;
+  font-size: 16px;
   text-decoration: none;
 }
 

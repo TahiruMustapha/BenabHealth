@@ -16,7 +16,9 @@ import { logout } from "../redux/userSlice";
 
 const fetchUserData = async (id) => {
   try {
-    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/get-user/${id}`);
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_BASE_URL}/api/user/get-user/${id}`
+    );
     return response.data;
   } catch (error) {
     console.log("Cannot get user data!", error);
@@ -24,6 +26,7 @@ const fetchUserData = async (id) => {
 };
 function Layout({ children }) {
   const [collapse, setCollapse] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState(true);
   const location = useLocation();
   const userMenu = [
     {
@@ -120,12 +123,18 @@ function Layout({ children }) {
   const { doctor } = doctorUserData;
   const dispatch = useDispatch();
   return (
-    <div className="main">
-      <div className="flex layout">
-        <div className={`sideBar`}>
+    <div className=" py-[15px]  px-2 md:px-[15px]">
+      <div className="flex gap-2 md:gap-0">
+        <div
+          className={`${
+            mobileMenu && "hidden"
+          } md:block  bg-[#053b50] rounded-md shadow-[0_0_0_2px_rgba(128,128,128,0.158)] md:mr-5 min-h-[98vh] py-2 md:p-2`}
+        >
           <div className=" sideBar-header">
-            <div className="sideBar_titleBox">
-              <h1 className="sideBar-title">BH</h1>
+            <div className=" flex items-center justify-center">
+              <h1 className="bg-white flex items-center justify-center text-[#053b50] md:p-[3px] text-[20px] md:text-[40px] text-center font-bold w-[40px] h-[40px] md:w-[70px] md:h-[70px] rounded-full">
+                BH
+              </h1>
             </div>
           </div>
           {user?.isDoctor && (
@@ -135,9 +144,9 @@ function Layout({ children }) {
                 return (
                   <div key={doctor.name}>
                     <div
-                      className={`${collapse ? `colapseTrue` : ` menu-item`}  ${
-                        isActive && "active-menu-item"
-                      }`}
+                      className={`${
+                        collapse ? `colapseTrue` : ` menu-item `
+                      }  ${isActive && "active-menu-item"}`}
                     >
                       <span>{doctor.icon}</span>
 
@@ -171,7 +180,7 @@ function Layout({ children }) {
 
                     {!collapse && <Link to={admin.path}>{admin.name}</Link>}
                     {!collapse && (
-                      <p className=" text-x s text-white underline">
+                      <p className=" text-xs text-white underline">
                         {admin.title}
                       </p>
                     )}
@@ -185,7 +194,8 @@ function Layout({ children }) {
               {userMenu.map((user) => {
                 const isActive = location.pathname === user.path;
                 return (
-                  <div
+                  <Link
+                  to={user.path}
                     className={`${collapse ? `colapseTrue` : ` menu-item`}  ${
                       isActive && "active-menu-item"
                     }`}
@@ -193,13 +203,13 @@ function Layout({ children }) {
                   >
                     <span>{user.icon}</span>
 
-                    {!collapse && <Link to={user.path}>{user.name}</Link>}
+                    {!collapse && <span className=" text-xs">{user.name}</span>}
                     {!collapse && (
-                      <p className=" text-x s text-white underline">
+                      <p className=" text-sm text-white underline">
                         {user.title}
                       </p>
                     )}
-                  </div>
+                  </Link>
                 );
               })}
             </div>
@@ -210,7 +220,6 @@ function Layout({ children }) {
               onClick={() => {
                 localStorage.clear();
                 dispatch(logout());
-                // user = {};
                 navigate("/");
               }}
             >
@@ -221,18 +230,35 @@ function Layout({ children }) {
             </div>
           </div>
         </div>
-        <div className="content">
-          <div className="header">
+        <div className="content ">
+          <div className="bg-white rounded-md shadow-[0_0_0_2px_rgba(128,128,128,0.158)] mb-4 h-[8vh] flex items-center justify-between">
             {collapse ? (
               <span
-                onClick={() => setCollapse(false)}
+                onClick={() => {
+                  setCollapse(false);
+                  setMobileMenu(true);
+                }}
                 className=" collapseTrue ml-[5px]"
               >
-                <LuMenu className=" text-2xl text-[20px] cursor-pointer" />
+                 {!mobileMenu  ? (
+                  <IoClose  className=" text-2xl text-[20px] cursor-pointer" />
+                ) : (
+                  <LuMenu className="  text-2xl text-[20px] cursor-pointer" />
+                )}
               </span>
             ) : (
-              <span onClick={() => setCollapse(true)} className=" ml-[5px]">
-                <IoClose className=" text-2xl text-[20px] cursor-pointer" />
+              <span
+                onClick={() => {
+                  setCollapse(true);
+                  setMobileMenu(false);
+                }}
+                className=" ml-[5px]"
+              >
+                {mobileMenu ? (
+                  <LuMenu className=" text-2xl text-[20px] cursor-pointer" />
+                ) : (
+                  <IoClose className="  text-2xl text-[20px] cursor-pointer" />
+                )}
               </span>
             )}
             <div className="  relative px-3 flex gap-2 items-center">
@@ -241,7 +267,7 @@ function Layout({ children }) {
                   onClick={() => navigate("/notifications")}
                   className=" cursor-pointer "
                 >
-                  <IoMdNotificationsOutline className=" text-2xl"/>
+                  <IoMdNotificationsOutline className=" text-2xl" />
                   {user?.unseenNotifications.length >= 1 && (
                     <span className=" w-4 h-4  flex items-center justify-center text-white font-semibold rounded-full bg-red-600 text-xs top-[-1px] right-[3.6rem]  absolute">
                       {user?.unseenNotifications.length}

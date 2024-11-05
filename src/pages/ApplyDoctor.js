@@ -41,7 +41,7 @@ function ApplyDoctor() {
   };
   return (
     <Layout>
-      <h1 className=" page-title font-semibold">Apply Doctor Account</h1>
+      <h1 className=" text-center md:text-left page-title font-semibold">Apply Doctor Account</h1>
       <hr />
       <Form layout="vertical" onFinish={onFinish}>
         <h1 className=" text-gray-500 mt-2 font-semibold    ">

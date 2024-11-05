@@ -29,8 +29,8 @@ const Register = () => {
   };
   return (
     <div className=" bg-[#053B50] w-full h-full   authentication">
-      <div className=" bg-white    shadow-md border-gray-300 border-[1px] rounded-md  w-[30%] px-3 py-5 authentication-form card">
-        <h1 className=" ml-[-40px] bg-[#F86F03] px-3 py-1 rounded-bl-xl text-2xl     inline-block   text-white card-title capitalize">
+      <div className=" bg-white     shadow-md border-gray-300 border-[1px] rounded-md w-[90%]  md:w-[30%] px-3 py-5 authentication-form card">
+        <h1 className=" ml-[-25px] md:ml-[-40px] bg-[#F86F03] px-3 py-1 rounded-bl-xl text-2xl     inline-block   text-white card-title capitalize">
           Nice to meet you
         </h1>
 
